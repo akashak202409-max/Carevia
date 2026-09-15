@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  HeartPulse, Menu, X, Search, MapPin, 
+  HeartPulse, Leaf, Menu, X, Search, MapPin, 
   CheckCircle, Shield, Phone, Activity,
   Home as HomeIcon, Users, Stethoscope, ChevronRight, MessageCircle, ChevronDown,
   Sun, Laptop, Building2, Film, Landmark, GraduationCap, BookOpen, Factory, Play, ArrowUpRight
@@ -50,6 +50,26 @@ const services = [
     bgColor: "bg-red-50",
     link: "/doctor-visit",
     img: "/service-doctor.jpg"
+  },
+  {
+    title: "Ayurveda",
+    desc: "Experience traditional healing and natural therapies at your doorstep",
+    price: "Starts at ₹800/session",
+    icon: <Leaf className="w-8 h-8 text-primary" />,
+    action: "Book Ayurveda",
+    bgColor: "bg-emerald-50",
+    link: "/ayurveda",
+    img: "/service-physio.png"
+  },
+  {
+    title: "BHS",
+    desc: "Basic Health Services including vitals monitoring and essential care",
+    price: "Starts at ₹600/visit",
+    icon: <HeartPulse className="w-8 h-8 text-primary" />,
+    action: "Book BHS",
+    bgColor: "bg-teal-50",
+    link: "/bhs",
+    img: "/service-homecare.png"
   }
 ];
 
@@ -63,7 +83,7 @@ const features = [
   { title: "Verified Professionals", desc: "Background-checked and licensed", icon: "✅" },
   { title: "24/7 Available", desc: "Book anytime, care arrives on time", icon: "⏰" },
   { title: "Transparent Pricing", desc: "No hidden charges, pay after service", icon: "💰" },
-  { title: "Insurance Support", desc: "Cashless claims with top insurers", icon: "🛡️" }
+  { title: "100% Refund", desc: "Money-back guarantee if not satisfied", icon: "💯" }
 ];
 
 const testimonials = [
@@ -78,10 +98,10 @@ const cities = [
   { name: "Chennai", icon: <Sun className="w-6 h-6" />, desc: "Tamil Nadu", color: "text-amber-500", bg: "bg-amber-50" },
   { name: "Bangalore", icon: <Laptop className="w-6 h-6" />, desc: "Karnataka", color: "text-green-500", bg: "bg-green-50" },
   { name: "Hyderabad", icon: <Building2 className="w-6 h-6" />, desc: "Telangana", color: "text-blue-500", bg: "bg-blue-50" },
-  { name: "Mumbai", icon: <Film className="w-6 h-6" />, desc: "Maharashtra", color: "text-purple-500", bg: "bg-purple-50" },
-  { name: "Delhi", icon: <Landmark className="w-6 h-6" />, desc: "NCR", color: "text-red-500", bg: "bg-red-50" },
-  { name: "Pune", icon: <GraduationCap className="w-6 h-6" />, desc: "Maharashtra", color: "text-indigo-500", bg: "bg-indigo-50" },
-  { name: "Kolkata", icon: <BookOpen className="w-6 h-6" />, desc: "West Bengal", color: "text-orange-500", bg: "bg-orange-50" },
+  { name: "Kochi", icon: <Film className="w-6 h-6" />, desc: "Kerala", color: "text-purple-500", bg: "bg-purple-50" },
+  { name: "Madurai", icon: <Landmark className="w-6 h-6" />, desc: "Tamil Nadu", color: "text-red-500", bg: "bg-red-50" },
+  { name: "Mysore", icon: <GraduationCap className="w-6 h-6" />, desc: "Karnataka", color: "text-indigo-500", bg: "bg-indigo-50" },
+  { name: "Trivandrum", icon: <BookOpen className="w-6 h-6" />, desc: "Kerala", color: "text-orange-500", bg: "bg-orange-50" },
   { name: "Coimbatore", icon: <Factory className="w-6 h-6" />, desc: "Tamil Nadu", color: "text-primary-500", bg: "bg-primary-50" }
 ];
 
@@ -184,7 +204,7 @@ export default function Home() {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((svc, idx) => (
             <Link to={svc.link} key={idx} className="group block relative h-[400px] rounded-3xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 bg-gray-100">
               <img src={svc.img} alt={svc.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -365,6 +385,8 @@ export default function Home() {
                 <li><a href="#" className="hover:text-primary transition">Home Care</a></li>
                 <li><a href="#" className="hover:text-primary transition">Care Taker</a></li>
                 <li><a href="#" className="hover:text-primary transition">Doctor Visit</a></li>
+                <li><a href="#" className="hover:text-primary transition">Ayurveda</a></li>
+                <li><a href="#" className="hover:text-primary transition">BHS</a></li>
               </ul>
             </div>
             

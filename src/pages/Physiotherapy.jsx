@@ -69,7 +69,7 @@ export default function Physiotherapy() {
           
           <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full sm:w-auto">
             <AnimatedCTA>
-              Book a Session — ₹500 onwards
+              Book a Session
             </AnimatedCTA>
             <button className="bg-transparent border-2 border-primary text-primary hover:bg-[#F0F4FF] px-6 py-3 rounded-xl font-medium text-base transition flex items-center justify-center gap-2">
               <Phone className="w-5 h-5" /> Talk to a Physio Now
@@ -98,25 +98,28 @@ export default function Physiotherapy() {
       <section className="bg-[#FEF2F2] py-10 border-y border-[#fce4e4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="flex flex-col items-center text-center">
-              <Clock className="w-8 h-8 text-secondary mb-3" />
-              <h4 className="font-bold text-primary mb-1">Session Length</h4>
-              <p className="text-sm text-[#5A6478]">45 to 60 minutes</p>
-            </div>
+            
             <div className="flex flex-col items-center text-center">
               <span className="text-3xl mb-2">💰</span>
               <h4 className="font-bold text-primary mb-1">Starting Price</h4>
               <p className="text-sm text-[#5A6478]">₹500 per session</p>
             </div>
-            <div className="flex flex-col items-center text-center">
-              <HomeIcon className="w-8 h-8 text-primary mb-3" />
-              <h4 className="font-bold text-primary mb-1">Available In</h4>
-              <p className="text-sm text-[#5A6478]">20+ cities across India</p>
-            </div>
+            
             <div className="flex flex-col items-center text-center">
               <span className="text-3xl mb-2">⚡</span>
               <h4 className="font-bold text-primary mb-1">Slot Availability</h4>
               <p className="text-sm text-[#5A6478]">Same-day booking</p>
+            </div>
+          
+            <div className="flex flex-col items-center text-center">
+              <span className="text-3xl mb-2">✅</span>
+              <h4 className="font-bold text-primary mb-1">100% Verified Profile</h4>
+              <p className="text-sm text-[#5A6478]">Background checked</p>
+            </div>
+            <div className="flex flex-col items-center text-center">
+              <span className="text-3xl mb-2">💯</span>
+              <h4 className="font-bold text-primary mb-1">100% Refund Provided</h4>
+              <p className="text-sm text-[#5A6478]">Money-back guarantee</p>
             </div>
           </div>
         </div>
@@ -137,7 +140,7 @@ export default function Physiotherapy() {
             </p>
             
             <ul className="space-y-4">
-              {["No travel or waiting rooms", "Personalized 1-on-1 sessions", "Progress tracking & exercise plans", "Family-friendly scheduling"].map((item, i) => (
+              {["No travel or waiting rooms", "Personalized 1-on-1 sessions", "Family-friendly scheduling"].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-lg text-primary font-medium">
                   <span className="text-secondary">✔</span> {item}
                 </li>
@@ -152,10 +155,6 @@ export default function Physiotherapy() {
               alt="Physiotherapy session" 
               className="rounded-[32px] shadow-2xl object-cover w-full h-[450px]"
             />
-            <div className="absolute -bottom-6 -left-8 bg-white p-4 rounded-xl shadow-xl z-20 flex items-center gap-3">
-              <span className="text-3xl">🎯</span>
-              <p className="font-bold text-primary text-sm max-w-[150px]">92% patients see improvement in 2 weeks</p>
-            </div>
           </div>
         </div>
       </section>

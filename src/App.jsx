@@ -11,6 +11,10 @@ import Blog from './pages/Blog.jsx';
 import Login from './pages/Login.jsx';
 import HireProfessional from './pages/HireProfessional.jsx';
 import FindJobs from './pages/FindJobs.jsx';
+import NurseCare from './pages/NurseCare.jsx';
+import HomeDoctor from './pages/HomeDoctor.jsx';
+import Ayurveda from './pages/Ayurveda.jsx';
+import BHS from './pages/BHS.jsx';
 import Verification from './pages/Verification.jsx';
 
 export default function App() {
@@ -27,6 +31,10 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/hire-professional" element={<HireProfessional />} />
         <Route path="/jobs" element={<FindJobs />} />
+        <Route path="/nurse-care" element={<NurseCare />} />
+        <Route path="/home-doctor" element={<HomeDoctor />} />
+        <Route path="/ayurveda" element={<Ayurveda />} />
+        <Route path="/bhs" element={<BHS />} />
         <Route path="/verification" element={<Verification />} />
       </Routes>
     </Router>

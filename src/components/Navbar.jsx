@@ -43,6 +43,10 @@ export default function Navbar() {
                   <Link to="/home-care" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Home Care</Link>
                   <Link to="/care-taker" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Care Taker</Link>
                   <Link to="/doctor-visit" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Doctor Visit</Link>
+                  <Link to="/nurse-care" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Nurse Care</Link>
+                  <Link to="/home-doctor" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Home Doctor</Link>
+                  <Link to="/ayurveda" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Ayurveda</Link>
+                  <Link to="/bhs" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">BHS</Link>
                 </div>
               )}
             </div>
@@ -50,21 +54,13 @@ export default function Navbar() {
             <a href="/#how-it-works" className="font-medium text-primary hover:text-primary transition">How It Works</a>
             <Link to="/about" className="font-medium text-primary hover:text-primary transition">About</Link>
             <Link to="/blog" className="font-medium text-primary hover:text-primary transition">Blog</Link>
+              <Link to="/jobs" className="font-medium text-primary hover:text-primary transition">Careers</Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <div className="bg-gray-100 p-1 rounded-full flex items-center mr-2">
-              <Link to="/hire-professional" className={`px-4 py-1.5 rounded-full text-sm font-bold transition ${location.pathname === '/hire-professional' ? 'bg-white text-[#1E3A8A] shadow-sm' : 'text-gray-500 hover:text-[#1E3A8A]'}`}>
-                I want to hire
-              </Link>
-              <Link to="/jobs" className={`px-4 py-1.5 rounded-full text-sm font-bold transition ${location.pathname === '/jobs' ? 'bg-white text-[#1E3A8A] shadow-sm' : 'text-gray-500 hover:text-[#1E3A8A]'}`}>
-                I'm a professional
-              </Link>
-            </div>
+            
             <Link to="/login" className="font-bold text-primary hover:text-[#E87070] transition">Login</Link>
-            <button className="bg-[#E87070] hover:bg-[#d66161] text-white px-6 py-2.5 rounded-full font-bold transition shadow-md">
-              Post Requirement
-            </button>
+            
           </div>
 
           {/* Mobile Menu Button */}
@@ -92,6 +88,10 @@ export default function Navbar() {
                     <Link to="/home-care" className="text-gray-600 text-sm font-medium">Home Care</Link>
                     <Link to="/care-taker" className="text-gray-600 text-sm font-medium">Care Taker</Link>
                     <Link to="/doctor-visit" className="text-gray-600 text-sm font-medium">Doctor Visit</Link>
+                    <Link to="/nurse-care" className="text-gray-600 text-sm font-medium">Nurse Care</Link>
+                    <Link to="/home-doctor" className="text-gray-600 text-sm font-medium">Home Doctor</Link>
+                    <Link to="/ayurveda" className="text-gray-600 text-sm font-medium">Ayurveda</Link>
+                    <Link to="/bhs" className="text-gray-600 text-sm font-medium">BHS</Link>
                   </div>
                 )}
               </div>

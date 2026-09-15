@@ -8,7 +8,7 @@ import {
 import Navbar from '../components/Navbar';
 import AnimatedCTA from '../components/AnimatedCTA';
 
-export default function CareTaker() {
+export default function NurseCare() {
   const [activeFaq, setActiveFaq] = useState(null);
 
   useEffect(() => {
@@ -16,14 +16,14 @@ export default function CareTaker() {
   }, []);
 
   const conditions = [
-    { icon: "👴", name: "Elderly Companionship", desc: "Friendly support for seniors" },
-    { icon: "🛏️", name: "Bedridden Assistance", desc: "Turning, feeding, and hygiene" },
-    { icon: "🚶", name: "Mobility Support", desc: "Help with walking & movement" },
-    { icon: "💊", name: "Medication Reminders", desc: "Timely medicine management" },
-    { icon: "🛁", name: "Personal Hygiene", desc: "Bathing and grooming help" },
-    { icon: "🍎", name: "Feeding Assistance", desc: "Meal preparation and feeding" },
-    { icon: "🏥", name: "Hospital Escort", desc: "Accompanying to appointments" },
-    { icon: "🛒", name: "Basic Errands", desc: "Light errands & organization" }
+    { icon: "🦴", name: "Back Pain", desc: "Chronic and acute lower back relief" },
+    { icon: "💆", name: "Neck Pain", desc: "Cervical spondylosis & stiffness" },
+    { icon: "🦵", name: "Knee Pain", desc: "Arthritis, ligament & joint pain" },
+    { icon: "💪", name: "Shoulder Pain", desc: "Frozen shoulder, rotator cuff issues" },
+    { icon: "🏥", name: "Post-Surgery Recovery", desc: "Faster healing after operations" },
+    { icon: "⚽", name: "Sports Injuries", desc: "Sprains, strains, athletic rehab" },
+    { icon: "🧠", name: "Stroke Rehabilitation", desc: "Regain mobility & function" },
+    { icon: "👵", name: "Geriatric Nurse", desc: "Care designed for seniors" }
   ];
 
   const exercises = [
@@ -34,8 +34,8 @@ export default function CareTaker() {
   ];
 
   const faqs = [
-    { q: "How quickly can a care taker visit my home?", a: "We can arrange a caregiver within 12-24 hours depending on your requirements. Same-day slots may be available." },
-    { q: "What equipment does the care taker bring?", a: "Our care takers bring necessary basic medical kits. For specialized ICU setups, we help arrange equipment separately, and basic assessment tools." },
+    { q: "How quickly can a nurse visit my home?", a: "We typically arrange a visit within 24-48 hours of booking. Same-day slots may be available." },
+    { q: "What equipment does the Nurse bring?", a: "Our nurses carry essential portable equipment, such as resistance bands, ultrasound therapy machines, and basic assessment tools." },
     { q: "Do I need a doctor's prescription to book?", a: "No, you don't need a prescription for an initial assessment, though it's helpful if you have one." },
     { q: "Can I book a session for my elderly parents remotely?", a: "Absolutely! You can manage bookings and track progress on behalf of your family members." }
   ];
@@ -47,22 +47,20 @@ export default function CareTaker() {
       <section className="pt-32 pb-20 lg:pt-44 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 bg-gradient-to-br from-white to-[#F0F4FF] overflow-hidden">
         <div className="lg:w-[55%] flex flex-col items-start z-10">
           <div className="bg-[#FEF2F2] text-secondary px-4 py-1.5 rounded-full text-sm font-medium flex items-center gap-2 mb-6 border border-[#fbd4d4]">
-            🏠 Certified Care Takers at Your Doorstep
+            🏠 Certified Nurses at Your Doorstep
           </div>
           <div className="text-sm text-gray-500 mb-4 font-medium flex items-center gap-2">
             <Link to="/" className="hover:text-primary">Home</Link> <ChevronRight className="w-3 h-3" /> 
             <span className="hover:text-primary cursor-pointer">Services</span> <ChevronRight className="w-3 h-3" />
-            <span className="text-primary">Care Taker</span>
+            <span className="text-primary">nurse care</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold leading-[1.1] mb-6 font-poppins text-primary">
-            Reliable Care Taker Services,<br/>Right Where You Belong.
-          </h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold leading-[1.1] mb-6 font-poppins text-primary">Professional Nurse Care,<br/>Delivered to Your Home</h1>
           <p className="text-lg text-[#5A6478] mb-8 max-w-[500px] leading-relaxed">
-            Get comprehensive daily living support and companionship from verified care takers. Giving you peace of mind while your loved ones are well cared for.
+            Recover from pain, injury, or surgery with certified nurses who visit you at home. Personalized care, zero travel, faster healing.
           </p>
           
           <div className="flex flex-wrap gap-4 mb-10 items-center text-sm font-medium text-primary">
-            <span className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm"><span className="text-green-500">✅</span> 500+ Certified Care Takers</span>
+            <span className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm"><span className="text-green-500">✅</span> 500+ Certified Nurses</span>
             <span className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm"><span className="text-yellow-400">⭐</span> 4.9 Rated</span>
             <span className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm">🏥 25,000+ Patients Treated</span>
           </div>
@@ -72,7 +70,7 @@ export default function CareTaker() {
               Book a Session
             </AnimatedCTA>
             <button className="bg-transparent border-2 border-primary text-primary hover:bg-[#F0F4FF] px-6 py-3 rounded-xl font-medium text-base transition flex items-center justify-center gap-2">
-              <Phone className="w-5 h-5" /> Talk to a Care Taker Now
+              <Phone className="w-5 h-5" /> Talk to a Nurse Now
             </button>
           </div>
           
@@ -84,8 +82,8 @@ export default function CareTaker() {
         <div className="lg:w-[45%] relative mt-10 lg:mt-0 w-full">
           <div className="relative rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(30,58,138,0.15)] animate-[float_4s_ease-in-out_infinite]">
             <img 
-              src="/caretaker-hero.png" 
-              alt="Care Taker treating patient at home" 
+              src="/nurse-hero.jpg" 
+              alt="nurse treating patient at home" 
               className="w-full h-[550px] object-cover"
             />
           </div>
@@ -125,18 +123,18 @@ export default function CareTaker() {
         </div>
       </section>
 
-      {/* 4. About Care Taker */}
+      {/* 4. About nurse care */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white">
         <div className="flex flex-col md:flex-row items-center gap-16">
           <div className="md:w-[60%]">
             <h2 className="text-3xl md:text-[40px] font-semibold font-poppins text-primary mb-6 leading-tight">
-              Care Takers You Can Trust
+              nurse care That Comes to You
             </h2>
             <p className="text-lg text-[#5A6478] mb-6 leading-relaxed">
               We bring clinical excellence straight to your living room. Whether you're managing chronic pain, recovering from joint replacement surgery, or dealing with age-related mobility issues, our <span className="text-secondary font-medium">real recovery without leaving your home</span> approach ensures you heal faster and safer.
             </p>
             <p className="text-lg text-[#5A6478] mb-8 leading-relaxed">
-              Carevia connects you with compassionate, background-checked care takers who provide dedicated round-the-clock or part-time support for your family.
+              Carevia connects you with highly qualified, background-checked nurses who design custom treatment plans tailored to your home environment.
             </p>
             
             <ul className="space-y-4">
@@ -151,8 +149,8 @@ export default function CareTaker() {
           <div className="md:w-[40%] relative">
             <div className="absolute inset-0 bg-[#F0F4FF] rounded-[40px] transform rotate-3 scale-105 -z-10"></div>
             <img 
-              src="/caretaker-section.png" 
-              alt="Care Taker session" 
+              src="/Nurse-section.png" 
+              alt="nurse care session" 
               className="rounded-[32px] shadow-2xl object-cover w-full h-[450px]"
             />
           </div>
@@ -163,7 +161,7 @@ export default function CareTaker() {
       <section className="py-24 bg-[#F0F4FF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-[40px] font-semibold font-poppins text-primary mb-4">How Our Care Takers Can Help</h2>
+            <h2 className="text-3xl md:text-[40px] font-semibold font-poppins text-primary mb-4">Conditions Our nurses Treat</h2>
             <p className="text-lg text-[#5A6478]">Certified expertise across musculoskeletal, neurological, and post-surgical care</p>
           </div>
           
@@ -202,7 +200,7 @@ export default function CareTaker() {
               </div>
               <p className="text-sm text-[#5A6478] mb-8 pb-8 border-b border-gray-100">Perfect for one-time care</p>
               <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> 45-min home session</li>
+                <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> 12-hour day shift</li>
                 <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Free initial assessment</li>
                 <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Personalized exercise plan</li>
               </ul>
@@ -211,19 +209,19 @@ export default function CareTaker() {
               </button>
             </div>
             
-            {/* 10 Session Pack */}
+            {/* 10 Shift Pack */}
             <div className="bg-white p-8 rounded-3xl shadow-2xl border-2 border-secondary relative transform lg:-translate-y-4">
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-secondary text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-md">
                 ⭐ Most Popular
               </div>
-              <h3 className="text-xl font-bold text-primary mb-2 mt-2">10 Session Pack</h3>
+              <h3 className="text-xl font-bold text-primary mb-2 mt-2">10 Shift Pack</h3>
               <div className="flex items-baseline gap-1 mb-2">
                 <span className="text-4xl font-bold text-primary">₹4,500</span>
                 <span className="text-[#5A6478]">/ 10 sessions</span>
               </div>
-              <p className="text-sm font-medium text-secondary mb-8 pb-8 border-b border-gray-100">Save ₹500 (₹450/session)</p>
+              <p className="text-sm font-medium text-secondary mb-8 pb-8 border-b border-gray-100">Save ₹500 (₹450/shift)</p>
               <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-2 text-sm text-primary font-medium"><CheckCircle className="w-5 h-5 text-secondary shrink-0" /> Everything in Single</li>
+                <li className="flex items-start gap-2 text-sm text-primary font-medium"><CheckCircle className="w-5 h-5 text-secondary shrink-0" /> Everything in Day Shift</li>
                 <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Progress tracking dashboard</li>
                 <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Priority scheduling</li>
                 <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Free follow-up call</li>
@@ -240,10 +238,10 @@ export default function CareTaker() {
                 <span className="text-4xl font-bold text-primary">₹8,000</span>
                 <span className="text-[#5A6478]">/ month</span>
               </div>
-              <p className="text-sm text-[#5A6478] mb-8 pb-8 border-b border-gray-100">Unlimited sessions</p>
+              <p className="text-sm text-[#5A6478] mb-8 pb-8 border-b border-gray-100">24/7 round-the-clock care</p>
               <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Everything in 10-Session</li>
-                <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Dedicated care taker</li>
+                <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Everything in 10-Shift</li>
+                <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Dedicated nurse</li>
                 <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> Free weekly progress review</li>
                 <li className="flex items-start gap-2 text-sm text-primary"><CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" /> WhatsApp support</li>
               </ul>
@@ -268,11 +266,11 @@ export default function CareTaker() {
           
           <div className="relative z-10">
             <h2 className="text-3xl md:text-[40px] font-bold font-poppins mb-6 leading-tight">Ready to Start Your Recovery Journey?</h2>
-            <p className="text-lg md:text-xl mb-10 opacity-90 max-w-2xl mx-auto">Book a certified care taker to visit your home today. Same-day slots available.</p>
+            <p className="text-lg md:text-xl mb-10 opacity-90 max-w-2xl mx-auto">Book a certified nurse to visit your home today. Same-day slots available.</p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition shadow-lg">
-                📱 Book Care Taker Now
+                📱 Book Nurse Now
               </button>
               <button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition flex items-center justify-center gap-2">
                 💬 Chat on WhatsApp
