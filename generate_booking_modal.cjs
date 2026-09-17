@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { X, Search, MapPin, Star, Calendar as CalendarIcon, Clock, User, Phone, Mail, FileText, CheckCircle, ChevronLeft, ChevronRight, Check, Briefcase } from 'lucide-react';
+const fs = require('fs');
+
+const componentContent = `import React, { useState, useEffect } from 'react';
+import { X, Search, MapPin, Star, Calendar as CalendarIcon, Clock, User, Phone, Mail, FileText, CheckCircle, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 
 const DOCTORS = [
   { id: 1, name: "Dr. Priya Sharma", spec: "Homeopathy Doctor", rating: "4.9", exp: "8 Years", loc: "Chennai", fee: 600, img: "https://randomuser.me/api/portraits/women/44.jpg" },
@@ -56,7 +58,7 @@ export default function BookingModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity"
@@ -64,7 +66,7 @@ export default function BookingModal({ isOpen, onClose }) {
       />
       
       {/* Modal */}
-      <div className="relative w-full h-[95vh] sm:h-auto max-w-[1000px] sm:max-h-[90vh] bg-white rounded-t-[32px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-[fade-in_0.3s_ease-out]">
+      <div className="relative w-full max-w-[1000px] max-h-[90vh] bg-white rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-[fade-in_0.3s_ease-out]">
         
         {/* Header & Progress */}
         <div className="px-6 py-5 border-b border-gray-100 flex flex-col bg-white shrink-0">
@@ -80,15 +82,15 @@ export default function BookingModal({ isOpen, onClose }) {
               <div className="absolute left-0 right-0 top-1/2 h-1 bg-gray-100 -z-10 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-secondary transition-all duration-300"
-                  style={{ width: `${((step - 1) / 3) * 100}%` }}
+                  style={{ width: \`\${((step - 1) / 3) * 100}%\` }}
                 />
               </div>
               {[1, 2, 3, 4].map((num, idx) => (
                 <div key={num} className="flex flex-col items-center gap-2 bg-white px-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${step >= num ? 'bg-secondary text-white shadow-md' : 'bg-gray-100 text-gray-400'}`}>
+                  <div className={\`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors \${step >= num ? 'bg-secondary text-white shadow-md' : 'bg-gray-100 text-gray-400'}\`}>
                     {step > num ? <Check className="w-4 h-4" /> : num}
                   </div>
-                  <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider hidden sm:block ${step >= num ? 'text-primary' : 'text-gray-400'}`}>
+                  <span className={\`text-[10px] sm:text-xs font-bold uppercase tracking-wider hidden sm:block \${step >= num ? 'text-primary' : 'text-gray-400'}\`}>
                     {['Professional', 'Date & Time', 'Details', 'Confirm'][idx]}
                   </span>
                 </div>
@@ -130,7 +132,7 @@ export default function BookingModal({ isOpen, onClose }) {
                   <div 
                     key={doc.id} 
                     onClick={() => setSelectedDoctor(doc)}
-                    className={`bg-white p-5 rounded-[20px] border-2 cursor-pointer transition-all duration-200 flex flex-col ${selectedDoctor?.id === doc.id ? 'border-secondary shadow-lg scale-[1.02]' : 'border-gray-100 shadow-sm hover:border-secondary/30 hover:shadow-md'}`}
+                    className={\`bg-white p-5 rounded-[20px] border-2 cursor-pointer transition-all duration-200 flex flex-col \${selectedDoctor?.id === doc.id ? 'border-secondary shadow-lg scale-[1.02]' : 'border-gray-100 shadow-sm hover:border-secondary/30 hover:shadow-md'}\`}
                   >
                     <div className="flex gap-4 items-start mb-4">
                       <img src={doc.img} alt={doc.name} className="w-16 h-16 rounded-full object-cover shadow-sm" />
@@ -151,7 +153,7 @@ export default function BookingModal({ isOpen, onClose }) {
                       <div className="flex items-center gap-1.5 text-green-600 font-bold"><CheckCircle className="w-3.5 h-3.5" /> Available</div>
                     </div>
                     
-                    <div className={`w-full py-2.5 rounded-xl text-center text-sm font-bold transition-colors ${selectedDoctor?.id === doc.id ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-500'}`}>
+                    <div className={\`w-full py-2.5 rounded-xl text-center text-sm font-bold transition-colors \${selectedDoctor?.id === doc.id ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-500'}\`}>
                       {selectedDoctor?.id === doc.id ? 'Selected' : 'Select Doctor'}
                     </div>
                   </div>
@@ -189,7 +191,7 @@ export default function BookingModal({ isOpen, onClose }) {
                     <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
                   </div>
                   <div className="grid grid-cols-7 gap-2">
-                    {Array.from({ length: firstDay }).map((_, i) => <div key={`empty-${i}`} />)}
+                    {Array.from({ length: firstDay }).map((_, i) => <div key={\`empty-\${i}\`} />)}
                     {Array.from({ length: daysInMonth }).map((_, i) => {
                       const day = i + 1;
                       const d = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
@@ -201,7 +203,7 @@ export default function BookingModal({ isOpen, onClose }) {
                           key={day}
                           disabled={isPast}
                           onClick={() => setSelectedDate(d)}
-                          className={`aspect-square flex items-center justify-center rounded-full text-sm font-medium transition-colors ${isPast ? 'text-gray-300 cursor-not-allowed' : isSelected ? 'bg-primary text-white shadow-md font-bold' : 'text-gray-700 hover:bg-gray-100'}`}
+                          className={\`aspect-square flex items-center justify-center rounded-full text-sm font-medium transition-colors \${isPast ? 'text-gray-300 cursor-not-allowed' : isSelected ? 'bg-primary text-white shadow-md font-bold' : 'text-gray-700 hover:bg-gray-100'}\`}
                         >
                           {day}
                         </button>
@@ -224,7 +226,7 @@ export default function BookingModal({ isOpen, onClose }) {
                         <button
                           key={time}
                           onClick={() => setSelectedTime(time)}
-                          className={`py-3 px-4 rounded-xl text-sm font-bold transition-all border-2 ${selectedTime === time ? 'border-secondary bg-secondary/10 text-secondary' : 'border-gray-100 text-gray-600 hover:border-gray-200 hover:bg-gray-50'}`}
+                          className={\`py-3 px-4 rounded-xl text-sm font-bold transition-all border-2 \${selectedTime === time ? 'border-secondary bg-secondary/10 text-secondary' : 'border-gray-100 text-gray-600 hover:border-gray-200 hover:bg-gray-50'}\`}
                         >
                           {time}
                         </button>
@@ -436,7 +438,7 @@ export default function BookingModal({ isOpen, onClose }) {
               <button 
                 onClick={handleNext}
                 disabled={!isStep1Valid}
-                className={`px-8 py-3.5 rounded-xl font-bold text-white transition-all shadow-md ${isStep1Valid ? 'bg-secondary hover:bg-secondary-hover' : 'bg-gray-300 cursor-not-allowed shadow-none'}`}
+                className={\`px-8 py-3.5 rounded-xl font-bold text-white transition-all shadow-md \${isStep1Valid ? 'bg-secondary hover:bg-secondary-hover' : 'bg-gray-300 cursor-not-allowed shadow-none'}\`}
               >
                 Continue
               </button>
@@ -446,7 +448,7 @@ export default function BookingModal({ isOpen, onClose }) {
               <button 
                 onClick={handleNext}
                 disabled={!isStep2Valid}
-                className={`px-8 py-3.5 rounded-xl font-bold text-white transition-all shadow-md ${isStep2Valid ? 'bg-secondary hover:bg-secondary-hover' : 'bg-gray-300 cursor-not-allowed shadow-none'}`}
+                className={\`px-8 py-3.5 rounded-xl font-bold text-white transition-all shadow-md \${isStep2Valid ? 'bg-secondary hover:bg-secondary-hover' : 'bg-gray-300 cursor-not-allowed shadow-none'}\`}
               >
                 Continue
               </button>
@@ -456,7 +458,7 @@ export default function BookingModal({ isOpen, onClose }) {
               <button 
                 onClick={handleNext}
                 disabled={!isStep3Valid}
-                className={`px-8 py-3.5 rounded-xl font-bold text-white transition-all shadow-md ${isStep3Valid ? 'bg-secondary hover:bg-secondary-hover' : 'bg-gray-300 cursor-not-allowed shadow-none'}`}
+                className={\`px-8 py-3.5 rounded-xl font-bold text-white transition-all shadow-md \${isStep3Valid ? 'bg-secondary hover:bg-secondary-hover' : 'bg-gray-300 cursor-not-allowed shadow-none'}\`}
               >
                 Continue to Confirm
               </button>
@@ -477,3 +479,7 @@ export default function BookingModal({ isOpen, onClose }) {
     </div>
   );
 }
+`;
+
+fs.writeFileSync('src/components/BookingModal.jsx', componentContent);
+console.log('BookingModal.jsx component generated');

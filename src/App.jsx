@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
+import DoctorDashboard from './pages/DoctorDashboard.jsx';
+import ProfessionalOnboarding from './pages/ProfessionalOnboarding.jsx';
 import Physiotherapy from './pages/Physiotherapy.jsx';
 
 import HomeCare from './pages/HomeCare.jsx';
@@ -15,6 +17,7 @@ import NurseCare from './pages/NurseCare.jsx';
 import HomeDoctor from './pages/HomeDoctor.jsx';
 import Ayurveda from './pages/Ayurveda.jsx';
 import BHS from './pages/BHS.jsx';
+import Doctors from './pages/Doctors.jsx';
 import Verification from './pages/Verification.jsx';
 
 export default function App() {
@@ -35,7 +38,10 @@ export default function App() {
         <Route path="/home-doctor" element={<HomeDoctor />} />
         <Route path="/ayurveda" element={<Ayurveda />} />
         <Route path="/bhs" element={<BHS />} />
+        <Route path="/doctors" element={<Doctors />} />
         <Route path="/verification" element={<Verification />} />
+        <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+        <Route path="/professional/onboarding" element={<ProfessionalOnboarding />} />
       </Routes>
     </Router>
   );

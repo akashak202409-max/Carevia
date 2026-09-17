@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+const fs = require('fs');
+
+const loginContent = `import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { UserPlus, Building2, ShieldCheck, CheckCircle, Lock } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
 export default function Login() {
-  const [view, setView] = useState('login');
-  const [role, setRole] = useState('patient'); // 'login' or 'register'
+  const [view, setView] = useState('login'); // 'login' or 'register'
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -64,29 +65,13 @@ export default function Login() {
 
         {/* Right Side: Auth Forms */}
         <div className="w-full lg:w-7/12 flex items-center justify-center p-6 lg:p-20 bg-white min-h-[calc(100vh-80px)] lg:min-h-screen">
-          <div className="w-full max-w-md mt-8 lg:mt-12">
-            
-            {/* Role Toggle */}
-            <div className="bg-gray-100 p-1.5 rounded-2xl flex items-center mb-10 shadow-inner">
-              <button 
-                onClick={() => setRole('patient')}
-                className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${role === 'patient' ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-primary'}`}
-              >
-                Patient
-              </button>
-              <button 
-                onClick={() => setRole('doctor')}
-                className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${role === 'doctor' ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-primary'}`}
-              >
-                Professional
-              </button>
-            </div>
+          <div className="w-full max-w-md mt-8 lg:mt-16">
             
             {view === 'login' ? (
               <div className="animate-[fade-in_0.4s_ease-out]">
                 <div className="text-center mb-10">
                   <h2 className="text-3xl font-bold text-primary mb-3 font-poppins">Welcome Back</h2>
-                  <p className="text-gray-500">Sign in to your {role === 'doctor' ? 'professional dashboard' : 'account'}.</p>
+                  <p className="text-gray-500">Sign in to your professional dashboard.</p>
                 </div>
                 
                 <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
@@ -131,48 +116,55 @@ export default function Login() {
             ) : (
               <div className="animate-[fade-in_0.4s_ease-out]">
                 <div className="text-center mb-10">
-                  <h2 className="text-3xl font-bold text-primary mb-3 font-poppins">Create Account</h2>
-                  <p className="text-gray-500">Sign up as a {role === 'doctor' ? 'healthcare professional' : 'patient'}.</p>
+                  <h2 className="text-3xl font-bold text-primary mb-3 font-poppins">Join Carevia</h2>
+                  <p className="text-gray-500">How would you like to register?</p>
                 </div>
 
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
-                    <input 
-                      type="text" 
-                      placeholder="Enter your full name" 
-                      className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Email or Phone Number</label>
-                    <input 
-                      type="text" 
-                      placeholder="Enter your email or phone" 
-                      className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Password</label>
-                    <input 
-                      type="password" 
-                      placeholder="••••••••" 
-                      className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                    />
-                  </div>
+                <div className="space-y-4">
+                  {/* Option 1 */}
+                  <label className="group relative block cursor-pointer rounded-2xl border-2 border-gray-100 bg-white p-6 hover:border-primary hover:bg-[#F0F4FF] transition-all shadow-sm hover:shadow-md">
+                    <input type="radio" name="account_type" className="peer sr-only" />
+                    <div className="flex gap-5 items-start">
+                      <div className="bg-primary/10 text-primary p-3 rounded-xl shrink-0">
+                        <UserPlus className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-1">
+                          <h3 className="font-bold text-lg text-primary">Healthcare Professional</h3>
+                          <div className="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-colors">
+                            <Check className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100" />
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-500">Doctor, Physiotherapist, Homeopath, Nurse, Care Taker, etc.</p>
+                      </div>
+                    </div>
+                    <div className="absolute inset-0 rounded-2xl border-2 border-primary opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></div>
+                  </label>
 
-                  {role === 'doctor' ? (
-                    <Link to="/professional/onboarding" className="block text-center w-full bg-primary hover:bg-primary-hover text-white font-bold text-lg py-4 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5">
-                      Create Account
-                    </Link>
-                  ) : (
-                    <button className="w-full bg-primary hover:bg-primary-hover text-white font-bold text-lg py-4 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5">
-                      Create Account
-                    </button>
-                  )}
-                </form>
+                  {/* Option 2 */}
+                  <label className="group relative block cursor-pointer rounded-2xl border-2 border-gray-100 bg-white p-6 hover:border-primary hover:bg-[#F0F4FF] transition-all shadow-sm hover:shadow-md">
+                    <input type="radio" name="account_type" className="peer sr-only" />
+                    <div className="flex gap-5 items-start">
+                      <div className="bg-primary/10 text-primary p-3 rounded-xl shrink-0">
+                        <Building2 className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-1">
+                          <h3 className="font-bold text-lg text-primary">Clinic / Hospital</h3>
+                          <div className="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-colors">
+                            <Check className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100" />
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-500">Manage multiple staff members, clinic resources and appointments.</p>
+                      </div>
+                    </div>
+                    <div className="absolute inset-0 rounded-2xl border-2 border-primary opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></div>
+                  </label>
+                </div>
+
+                <button className="w-full bg-primary hover:bg-primary-hover text-white font-bold text-lg py-4 rounded-xl shadow-md transition-all mt-8 transform hover:-translate-y-0.5">
+                  Continue Setup
+                </button>
 
                 <div className="flex items-center justify-center gap-6 mt-10 text-xs font-bold text-gray-400">
                   <div className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-green-500" /> Secure</div>
@@ -209,3 +201,17 @@ function Check(props) {
     </svg>
   );
 }
+`;
+
+fs.writeFileSync('src/pages/Login.jsx', loginContent);
+console.log('Login.jsx created successfully.');
+
+// Link it in App.jsx
+let appContent = fs.readFileSync('src/App.jsx', 'utf8');
+if (!appContent.includes('import Login')) {
+  appContent = appContent.replace("import Doctors from './pages/Doctors.jsx';", "import Doctors from './pages/Doctors.jsx';\nimport Login from './pages/Login.jsx';");
+  appContent = appContent.replace('<Route path="/doctors" element={<Doctors />} />', '<Route path="/doctors" element={<Doctors />} />\n        <Route path="/login" element={<Login />} />');
+  fs.writeFileSync('src/App.jsx', appContent);
+  console.log('App.jsx updated with /login route.');
+}
+

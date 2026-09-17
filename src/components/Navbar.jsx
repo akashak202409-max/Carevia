@@ -20,13 +20,13 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'}`}>
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2 cursor-pointer">
             <img src="/logo.png" alt="Carevia Logo" className="h-16 sm:h-20 w-auto object-contain" />
           </Link>
           
-          <div className="hidden md:flex space-x-8 items-center">
+          <div className="hidden lg:flex space-x-8 items-center">
             <Link to="/" className="font-medium text-primary hover:text-primary transition">Home</Link>
             
             <div className="relative">
@@ -54,24 +54,25 @@ export default function Navbar() {
             <a href="/#how-it-works" className="font-medium text-primary hover:text-primary transition">How It Works</a>
             <Link to="/about" className="font-medium text-primary hover:text-primary transition">About</Link>
             <Link to="/blog" className="font-medium text-primary hover:text-primary transition">Blog</Link>
+              
               <Link to="/jobs" className="font-medium text-primary hover:text-primary transition">Careers</Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             
             <Link to="/login" className="font-bold text-primary hover:text-[#E87070] transition">Login</Link>
             
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden text-primary" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <button className="lg:hidden text-primary" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
         
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t mt-3 p-4 shadow-lg absolute w-full">
+          <div className="lg:hidden bg-white border-t mt-3 p-4 shadow-lg absolute w-full">
             <div className="flex flex-col space-y-4">
               <Link to="/" className="font-medium text-primary">Home</Link>
               

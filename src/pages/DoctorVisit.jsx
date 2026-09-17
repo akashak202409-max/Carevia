@@ -7,9 +7,12 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import AnimatedCTA from '../components/AnimatedCTA';
+import BookingModal from '../components/BookingModal';
+import BookingFlow from '../components/BookingFlow';
 
 export default function DoctorVisit() {
   const [activeFaq, setActiveFaq] = useState(null);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -68,9 +71,7 @@ export default function DoctorVisit() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full sm:w-auto">
-            <AnimatedCTA>
-              Book a Session
-            </AnimatedCTA>
+            <AnimatedCTA onClick={() => setIsBookingModalOpen(true)}>Book a Session</AnimatedCTA>
             <button className="bg-transparent border-2 border-primary text-primary hover:bg-[#F0F4FF] px-6 py-3 rounded-xl font-medium text-base transition flex items-center justify-center gap-2">
               <Phone className="w-5 h-5" /> Talk to a Doctor Now
             </button>
@@ -262,6 +263,8 @@ export default function DoctorVisit() {
       </section>
 
       {/* 15. Big CTA Banner */}
+      <BookingFlow />
+
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto bg-gradient-to-r from-secondary to-primary rounded-[32px] p-10 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
           <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay pointer-events-none"></div>
@@ -307,6 +310,7 @@ export default function DoctorVisit() {
         <MessageCircle className="w-6 h-6 relative z-10" />
       </a>
       
+      <BookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
     </div>
   );
 }
