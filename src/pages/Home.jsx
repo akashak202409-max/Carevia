@@ -174,7 +174,7 @@ export default function Home() {
             <div className="relative w-full max-w-[600px]">
               <div className="absolute inset-0 bg-primary rounded-[40px] transform rotate-3 scale-105 -z-10 opacity-10"></div>
               <img 
-                src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1200&auto=format&fit=crop" 
+                src="/home-hero.jpg" 
                 alt="Patient consulting online" 
                 className="w-full object-cover rounded-[32px] shadow-2xl border-4 border-white h-[400px] lg:h-[550px]" 
               />
