@@ -3,20 +3,113 @@ import { Link } from 'react-router-dom';
 import { CheckCircle, Upload, Camera, Building, FileText, Calendar, Clock, ArrowRight, ShieldCheck, Check } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
+
+const specializationOptions = {
+  "MBBS Doctor": [
+    "General Physician", "General Medicine", "Dermatology", "Pediatrics", "Gynecology", 
+    "Cardiology", "Orthopedics", "ENT", "Ophthalmology", "Psychiatry", "Pulmonology", 
+    "Gastroenterology", "Neurology", "Urology", "Emergency Medicine", "Family Medicine"
+  ],
+  "Homeopathy Doctor": [
+    "General Homeopathy", "Pediatrics", "Dermatology", "Women’s Health", "Chronic Disease Care",
+    "Allergy & Asthma", "Digestive Health", "Mental Wellness", "Joint & Pain Management", "Respiratory Care"
+  ],
+  "Physiotherapist": [
+    "General Physiotherapy", "Orthopedic Physiotherapy", "Sports Physiotherapy", "Neurological Physiotherapy",
+    "Pediatric Physiotherapy", "Geriatric Physiotherapy", "Cardiorespiratory Physiotherapy", 
+    "Post-Surgery Rehabilitation", "Sports Injury Rehabilitation", "Pain Management"
+  ],
+  "Nurse": [
+    "General Nursing", "Staff Nurse", "ICU Nurse", "Emergency Nurse", "Pediatric Nurse", 
+    "Maternity Nurse", "Geriatric Nurse", "Home Care Nurse", "Surgical Nurse", "Community Health Nurse"
+  ],
+  "Caretaker": [
+    "Elderly Care", "Patient Care", "Post-Surgery Care", "Bedridden Patient Care", "Disability Care", 
+    "Child Care", "Home Care", "Companion Care", "Dementia Care", "Palliative Care"
+  ],
+  "Lab Centre": [
+    "General Diagnostic Tests", "Blood Tests", "Urine Tests", "Diabetes Tests", "Thyroid Tests", 
+    "Lipid Profile", "Liver Function Tests", "Kidney Function Tests", "Hormone Tests", "Allergy Tests", 
+    "Vitamin Tests", "Microbiology", "Pathology", "Hematology", "Imaging & Diagnostics"
+  ]
+
+  , "BHS": [
+    "General Health Science", "Community Health", "Public Health", "Health & Wellness", 
+    "Nutrition & Wellness", "Healthcare Management", "Medical Laboratory Science", 
+    "Health Education", "Preventive Healthcare", "Rehabilitation & Health Support"
+  ],
+  "Ayurveda Doctor": [
+    "General Ayurveda", "Panchakarma", "Kayachikitsa (General Medicine)", "Shalya Tantra (Surgery)", 
+    "Shalakya Tantra (ENT & Ophthalmology)", "Kaumarabhritya (Pediatrics)", 
+    "Prasuti & Stri Roga (Women’s Health)", "Swasthavritta (Preventive & Lifestyle Care)", 
+    "Rasayana (Rejuvenation)", "Visha Chikitsa (Toxicology)", "Skin & Hair Care", "Pain & Joint Care"
+  ]
+};
+
 export default function ProfessionalOnboarding() {
-  const [step, setStep] = useState(2); // 1 is Account (done in login)
+  const [step, setStep] = useState(2);
+  const [profession, setProfession] = useState("");
+  const [selectedDay, setSelectedDay] = useState('Mon');
+  const [schedule, setSchedule] = useState({
+    Mon: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '04:00 PM', '05:00 PM'],
+    Tue: ['10:00 AM', '02:00 PM'],
+    Wed: [], Thu: [], Fri: [], Sat: [], Sun: []
+  });
+  const [newSlot, setNewSlot] = useState('');
+  const [isAddingSlot, setIsAddingSlot] = useState(false);
+  
+  const handleAddSlot = () => {
+    if (!newSlot) { setIsAddingSlot(false); return; }
+    // Convert 24h to 12h AM/PM
+    const [h, m] = newSlot.split(':');
+    const hour = parseInt(h);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    const formatted = `${hour12.toString().padStart(2, '0')}:${m} ${ampm}`;
+    
+    if (!schedule[selectedDay].includes(formatted)) {
+      setSchedule({...schedule, [selectedDay]: [...schedule[selectedDay], formatted].sort()});
+    }
+    setNewSlot('');
+    setIsAddingSlot(false);
+  };
+  
+  const removeSlot = (slot) => {
+    setSchedule({
+      ...schedule,
+      [selectedDay]: schedule[selectedDay].filter(s => s !== slot)
+    });
+  };
+  const skipClinic = profession === "Nurse" || profession === "Caretaker"; // 1 is Account (done in login)
   
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [step]);
 
-  const steps = [
-    { num: 1, title: 'Account', icon: <CheckCircle className="w-5 h-5 text-green-500" /> },
-    { num: 2, title: 'Profile', icon: step > 2 ? <CheckCircle className="w-5 h-5 text-green-500" /> : <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${step === 2 ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'}`}>2</div> },
-    { num: 3, title: 'Clinic', icon: step > 3 ? <CheckCircle className="w-5 h-5 text-green-500" /> : <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${step === 3 ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'}`}>3</div> },
-    { num: 4, title: 'Verification', icon: step > 4 ? <CheckCircle className="w-5 h-5 text-green-500" /> : <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${step === 4 ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'}`}>4</div> },
-    { num: 5, title: 'Availability', icon: <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${step === 5 ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'}`}>5</div> },
+  const baseSteps = [
+    { id: 1, title: 'Account' },
+    { id: 2, title: 'Profile' },
+    { id: 3, title: 'Clinic' },
+    { id: 4, title: 'Verification' },
+    { id: 5, title: 'Availability' },
   ];
+
+  const visibleSteps = baseSteps.filter(s => !(skipClinic && s.id === 3));
+  
+  const steps = visibleSteps.map((s, index) => {
+    const seqNum = index + 1;
+    const isPast = step > s.id;
+    const isCurrent = step === s.id;
+    
+    let icon;
+    if (s.id === 1 || isPast) {
+      icon = <CheckCircle className="w-5 h-5 text-green-500" />;
+    } else {
+      icon = <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${isCurrent ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'}`}>{seqNum}</div>;
+    }
+    
+    return { id: s.id, num: s.id, title: s.title, icon };
+  });
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans pt-28 lg:pt-36">
@@ -77,17 +170,32 @@ export default function ProfessionalOnboarding() {
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Profession *</label>
-                    <select className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition text-gray-600">
+                    <select value={profession} onChange={(e) => setProfession(e.target.value)} className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition text-gray-600">
                       <option>Select Profession</option>
+                      <option>MBBS Doctor</option>
                       <option>Homeopathy Doctor</option>
-                      <option>General Physician</option>
+                      <option>Ayurveda Doctor</option>
                       <option>Physiotherapist</option>
                       <option>Nurse</option>
+                      <option>Caretaker</option>
+                      <option>Lab Centre</option>
+                      <option>BHS</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Specialization</label>
-                    <input type="text" placeholder="e.g. Skin & Allergy" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                      {profession === 'Lab Centre' ? 'Laboratory Services / Test Categories' : 'Specialization'}
+                    </label>
+                    {profession && profession !== 'Select Profession' ? (
+                      <select className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition text-gray-600">
+                        <option>Select {profession === 'Lab Centre' ? 'Service' : 'Specialization'}</option>
+                        {specializationOptions[profession]?.map(opt => (
+                          <option key={opt}>{opt}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input type="text" placeholder="Select a profession first" disabled className="w-full bg-gray-100 border border-gray-100 rounded-xl p-3.5 text-sm font-medium text-gray-400 cursor-not-allowed" />
+                    )}
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Experience (Years) *</label>
@@ -98,13 +206,21 @@ export default function ProfessionalOnboarding() {
                     <input type="text" placeholder="English, Hindi, Tamil" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Consultation Fee (₹) *</label>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Home Consultation Fee (₹) *</label>
+                    <input type="number" placeholder="800" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Online Consultation Fee (₹) *</label>
+                    <input type="number" placeholder="500" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Clinic Consultation Fee (₹) *</label>
                     <input type="number" placeholder="600" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
                   </div>
                 </div>
 
                 <div className="flex gap-4 border-t border-gray-100 pt-6">
-                  <button onClick={() => setStep(3)} className="bg-primary hover:bg-primary-hover text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-md">
+                  <button onClick={() => setStep(skipClinic ? 4 : 3)} className="bg-primary hover:bg-primary-hover text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-md">
                     Save & Continue
                   </button>
                   <button className="bg-white border-2 border-gray-200 text-gray-600 hover:border-gray-300 px-8 py-3.5 rounded-xl font-bold transition-all">
@@ -220,13 +336,27 @@ export default function ProfessionalOnboarding() {
                 </div>
 
                 <div className="mb-6 pb-4 border-b border-gray-100 mt-10">
-                  <h2 className="text-xl font-bold text-primary mb-1">Payment Details</h2>
-                  <p className="text-sm text-gray-500">Provide your UPI ID for receiving consultation payouts.</p>
+                  <h2 className="text-xl font-bold text-primary mb-1">Bank Details</h2>
+                  <p className="text-sm text-gray-500">Provide your bank information for receiving consultation payouts.</p>
                 </div>
                 
-                <div className="mb-8">
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">UPI ID *</label>
-                  <input type="text" placeholder="e.g. 9876543210@ybl or drpriya@okicici" className="w-full max-w-md bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Account Holder Name *</label>
+                    <input type="text" placeholder="Dr. Priya Sharma" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Bank Name *</label>
+                    <input type="text" placeholder="e.g. HDFC Bank" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Account Number *</label>
+                    <input type="password" placeholder="••••••••••••" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">IFSC Code *</label>
+                    <input type="text" placeholder="e.g. HDFC0001234" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition uppercase" />
+                  </div>
                 </div>
 
                 
@@ -240,7 +370,7 @@ export default function ProfessionalOnboarding() {
                   <button onClick={() => setStep(5)} className="bg-primary hover:bg-primary-hover text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-md">
                     Submit for Verification
                   </button>
-                  <button onClick={() => setStep(3)} className="bg-white border-2 border-gray-200 text-gray-600 hover:border-gray-300 px-8 py-3.5 rounded-xl font-bold transition-all">
+                  <button onClick={() => setStep(skipClinic ? 2 : 3)} className="bg-white border-2 border-gray-200 text-gray-600 hover:border-gray-300 px-8 py-3.5 rounded-xl font-bold transition-all">
                     Back
                   </button>
                 </div>
@@ -273,24 +403,67 @@ export default function ProfessionalOnboarding() {
                   </div>
                   
                   <div className="flex flex-wrap gap-2 mb-8">
-                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
-                      <button key={day} className={`px-4 py-2 rounded-lg text-sm font-bold border-2 transition ${day === 'Mon' ? 'bg-primary text-white border-primary shadow-md' : 'bg-white text-gray-500 border-gray-200 hover:border-primary/50'}`}>
-                        {day}
-                      </button>
-                    ))}
+                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => {
+                      const count = schedule[day].length;
+                      return (
+                        <button 
+                          key={day} 
+                          onClick={() => setSelectedDay(day)}
+                          className={`px-4 py-2 rounded-lg text-sm font-bold border-2 transition flex items-center gap-1.5 ${selectedDay === day ? 'bg-primary text-white border-primary shadow-md' : 'bg-white text-gray-500 border-gray-200 hover:border-primary/50'}`}
+                        >
+                          {day}
+                          {count > 0 && (
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${selectedDay === day ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'}`}>{count}</span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
 
                   <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-8">
-                    <h4 className="font-bold text-gray-700 mb-4 flex items-center gap-2"><Clock className="w-4 h-4 text-secondary" /> Monday Time Slots</h4>
-                    <div className="flex flex-wrap gap-3">
-                      {['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '04:00 PM', '05:00 PM'].map(time => (
-                        <div key={time} className="bg-white border border-gray-200 px-4 py-2 rounded-lg text-sm font-bold text-gray-700 flex items-center gap-2 group cursor-pointer hover:border-secondary hover:text-secondary transition">
+                    <h4 className="font-bold text-gray-700 mb-4 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-secondary" /> 
+                      {selectedDay === 'Thu' ? 'Thursday' : selectedDay === 'Tue' ? 'Tuesday' : selectedDay === 'Wed' ? 'Wednesday' : selectedDay === 'Fri' ? 'Friday' : selectedDay === 'Sat' ? 'Saturday' : selectedDay === 'Sun' ? 'Sunday' : 'Monday'} Time Slots
+                    </h4>
+                    
+                    <div className="flex flex-wrap gap-3 items-center">
+                      {schedule[selectedDay].length === 0 && !isAddingSlot && (
+                        <p className="text-sm text-gray-400 font-medium italic w-full mb-2">No slots added for this day.</p>
+                      )}
+                      
+                      {schedule[selectedDay].map(time => (
+                        <div key={time} className="bg-white border border-gray-200 pl-4 pr-1 py-1.5 rounded-lg text-sm font-bold text-gray-700 flex items-center gap-2 group transition">
                           {time}
+                          <button onClick={() => removeSlot(time)} className="text-gray-300 hover:text-red-500 hover:bg-red-50 p-1 rounded transition">
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
                         </div>
                       ))}
-                      <button className="border-2 border-dashed border-gray-300 px-4 py-2 rounded-lg text-sm font-bold text-gray-500 hover:bg-white hover:border-gray-400 transition">
-                        + Add Slot
-                      </button>
+                      
+                      {!isAddingSlot ? (
+                        <button 
+                          onClick={() => setIsAddingSlot(true)}
+                          className="border-2 border-dashed border-gray-300 px-4 py-2 rounded-lg text-sm font-bold text-gray-500 hover:bg-white hover:border-gray-400 hover:text-primary transition"
+                        >
+                          + Add Slot
+                        </button>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <input 
+                            type="time" 
+                            value={newSlot}
+                            onChange={(e) => setNewSlot(e.target.value)}
+                            className="bg-white border-2 border-primary text-primary px-3 py-1.5 rounded-lg text-sm font-bold outline-none"
+                            autoFocus
+                          />
+                          <button onClick={handleAddSlot} className="bg-primary hover:bg-primary-hover text-white px-3 py-2 rounded-lg text-sm font-bold shadow-sm transition">
+                            Save
+                          </button>
+                          <button onClick={() => setIsAddingSlot(false)} className="text-gray-400 hover:text-gray-600 font-medium text-sm px-2">
+                            Cancel
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -302,7 +475,6 @@ export default function ProfessionalOnboarding() {
                 </div>
               </div>
             )}
-
           </div>
         </div>
       </div>

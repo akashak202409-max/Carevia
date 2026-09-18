@@ -8,7 +8,6 @@ import {
 import Navbar from '../components/Navbar';
 import AnimatedCTA from '../components/AnimatedCTA';
 import BookingModal from '../components/BookingModal';
-import BookingFlow from '../components/BookingFlow';
 
 export default function DoctorVisit() {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -263,7 +262,6 @@ export default function DoctorVisit() {
       </section>
 
       {/* 15. Big CTA Banner */}
-      <BookingFlow />
 
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto bg-gradient-to-r from-secondary to-primary rounded-[32px] p-10 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">

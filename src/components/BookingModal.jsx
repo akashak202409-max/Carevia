@@ -15,6 +15,8 @@ export default function BookingModal({ isOpen, onClose }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   const [patientInfo, setPatientInfo] = useState({ name: "", phone: "", email: "", reason: "" });
+  const [consultationType, setConsultationType] = useState("online");
+  const [selectedUpi, setSelectedUpi] = useState("gpay");
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   useEffect(() => {
@@ -33,12 +35,35 @@ export default function BookingModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const handleNext = () => setStep((s) => Math.min(s + 1, 5));
+  const handleNext = () => {
+    if (step === 5) {
+      const newAppt = {
+        id: Date.now(),
+        date: selectedDate ? selectedDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase().replace(/ /g, ' ') : 'UNKNOWN',
+        time: selectedTime,
+        title: consultationType ? consultationType.charAt(0).toUpperCase() + consultationType.slice(1) + ' Consultation' : 'Consultation',
+        status: 'Waiting',
+        statusColor: 'yellow',
+        patient: patientInfo?.name || 'Sanjay M.',
+        phone: patientInfo?.phone || '+91 99887 76655',
+        location: consultationType === 'online' ? 'Virtual' : (consultationType === 'home' ? 'Patient Home' : 'Main Clinic')
+      };
+      
+      try {
+        const existing = JSON.parse(localStorage.getItem('carevia_appointments') || '[]');
+        localStorage.setItem('carevia_appointments', JSON.stringify([newAppt, ...existing]));
+        window.dispatchEvent(new Event('carevia_appointment_booked'));
+      } catch (e) {
+        console.error('Failed to save to localStorage', e);
+      }
+    }
+    setStep((s) => Math.min(s + 1, 6));
+  };
   const handleBack = () => setStep((s) => Math.max(s - 1, 1));
 
   const isStep1Valid = selectedDoctor !== null;
   const isStep2Valid = selectedDate !== null && selectedTime !== "";
-  const isStep3Valid = patientInfo.name.trim() !== "" && patientInfo.phone.trim() !== "";
+  const isStep3Valid = true; // Always valid since it's just an optional upload now
 
   // Calendar logic
   const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -75,21 +100,21 @@ export default function BookingModal({ isOpen, onClose }) {
             </button>
           </div>
           
-          {step < 5 && (
+          {step < 6 && (
             <div className="flex items-center justify-between relative max-w-2xl mx-auto w-full mb-2">
               <div className="absolute left-0 right-0 top-1/2 h-1 bg-gray-100 -z-10 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-secondary transition-all duration-300"
-                  style={{ width: `${((step - 1) / 3) * 100}%` }}
+                  style={{ width: `${((step - 1) / 4) * 100}%` }}
                 />
               </div>
-              {[1, 2, 3, 4].map((num, idx) => (
+              {[1, 2, 3, 4, 5].map((num, idx) => (
                 <div key={num} className="flex flex-col items-center gap-2 bg-white px-2">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${step >= num ? 'bg-secondary text-white shadow-md' : 'bg-gray-100 text-gray-400'}`}>
                     {step > num ? <Check className="w-4 h-4" /> : num}
                   </div>
                   <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider hidden sm:block ${step >= num ? 'text-primary' : 'text-gray-400'}`}>
-                    {['Professional', 'Date & Time', 'Details', 'Confirm'][idx]}
+                    {['Professional', 'Date', 'Details', 'Confirm', 'Pay'][idx]}
                   </span>
                 </div>
               ))}
@@ -287,51 +312,16 @@ export default function BookingModal({ isOpen, onClose }) {
                 </div>
 
                 {/* Form Panel */}
-                <div className="md:col-span-3 bg-white p-6 md:p-8 rounded-[24px] shadow-sm border border-gray-100">
-                  <h4 className="font-bold text-primary mb-6">Patient Information</h4>
-                  <div className="space-y-5">
-                    <div>
-                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Full Name *</label>
-                      <input 
-                        type="text" 
-                        value={patientInfo.name}
-                        onChange={e => setPatientInfo({...patientInfo, name: e.target.value})}
-                        placeholder="John Doe" 
-                        className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" 
-                      />
+                <div className="md:col-span-3 bg-white p-6 md:p-8 rounded-[24px] shadow-sm border border-gray-100 flex flex-col justify-center">
+                  <h4 className="font-bold text-primary mb-2">Upload Medical Reports</h4>
+                  <p className="text-sm text-gray-500 mb-6">Please upload any relevant previous prescriptions or lab reports for the doctor to review.</p>
+                  
+                  <div className="border-2 border-dashed border-gray-300 rounded-[24px] bg-gray-50 p-10 flex flex-col items-center justify-center text-center hover:bg-gray-100 hover:border-secondary transition cursor-pointer h-64">
+                    <div className="w-16 h-16 bg-blue-100 text-blue-500 rounded-full flex items-center justify-center mb-4">
+                      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Phone Number *</label>
-                        <input 
-                          type="tel" 
-                          value={patientInfo.phone}
-                          onChange={e => setPatientInfo({...patientInfo, phone: e.target.value})}
-                          placeholder="+91 98765 43210" 
-                          className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" 
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Email Address</label>
-                        <input 
-                          type="email" 
-                          value={patientInfo.email}
-                          onChange={e => setPatientInfo({...patientInfo, email: e.target.value})}
-                          placeholder="john@example.com" 
-                          className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" 
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Reason for Visit</label>
-                      <textarea 
-                        rows="3" 
-                        value={patientInfo.reason}
-                        onChange={e => setPatientInfo({...patientInfo, reason: e.target.value})}
-                        placeholder="Briefly describe your symptoms..." 
-                        className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition resize-none"
-                      ></textarea>
-                    </div>
+                    <h4 className="font-bold text-gray-800 mb-1">Click to upload reports</h4>
+                    <p className="text-sm text-gray-500">PDF, JPG, PNG (Max 10MB)</p>
                   </div>
                 </div>
               </div>
@@ -382,8 +372,91 @@ export default function BookingModal({ isOpen, onClose }) {
             </div>
           )}
 
-          {/* STEP 5: Success */}
+          
+          {/* STEP 5: Payment */}
           {step === 5 && (
+            <div className="space-y-8 animate-[fade-in_0.4s_ease-out] max-w-2xl mx-auto">
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-primary mb-2">Payment Details</h3>
+                <p className="text-gray-500">Securely pay for your consultation.</p>
+              </div>
+
+              <div className="bg-white p-8 rounded-[24px] shadow-lg border border-gray-100">
+                <div className="flex justify-between items-center mb-8 pb-6 border-b border-gray-100">
+                  <div>
+                    <h4 className="font-bold text-gray-800 text-lg">Total Amount</h4>
+                    <p className="text-sm text-gray-500">{consultationType === 'online' ? 'Online Consultation' : 'Direct Visit'}</p>
+                  </div>
+                  <div className="text-3xl font-bold text-primary">₹{selectedDoctor?.fee || 500}</div>
+                </div>
+
+                {consultationType !== 'online' ? (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-[20px] p-6 text-center">
+                    <div className="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    </div>
+                    <h4 className="text-lg font-bold text-yellow-800 mb-2">Pay on Visit (COD)</h4>
+                    <p className="text-yellow-700 font-medium">For direct visits, we only accept payment at the clinic or during the home visit. No upfront payment is required.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    <h4 className="font-bold text-[#1e293b] text-sm uppercase tracking-wider mb-2">Select Payment Method</h4>
+                    
+                    <div className="grid grid-cols-3 gap-4">
+                      {/* GPay */}
+                      <div 
+                        onClick={() => setSelectedUpi('gpay')}
+                        className={`cursor-pointer border-2 rounded-2xl p-4 flex flex-col items-center justify-center gap-3 transition-all ${selectedUpi === 'gpay' ? 'border-[#4F46E5] bg-[#4F46E5]/5' : 'border-gray-100 hover:border-gray-200 bg-gray-50'}`}
+                      >
+                        <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center p-2">
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="GPay" className="w-full h-full object-contain" />
+                        </div>
+                        <span className="font-bold text-gray-700 text-sm">GPay</span>
+                      </div>
+                      
+                      {/* PhonePe */}
+                      <div 
+                        onClick={() => setSelectedUpi('phonepe')}
+                        className={`cursor-pointer border-2 rounded-2xl p-4 flex flex-col items-center justify-center gap-3 transition-all ${selectedUpi === 'phonepe' ? 'border-[#4F46E5] bg-[#4F46E5]/5' : 'border-gray-100 hover:border-gray-200 bg-gray-50'}`}
+                      >
+                        <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center p-2">
+                          <img src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" alt="PhonePe" className="w-full h-full object-cover scale-[1.5]" />
+                        </div>
+                        <span className="font-bold text-gray-700 text-sm">PhonePe</span>
+                      </div>
+                      
+                      {/* Other UPI */}
+                      <div 
+                        onClick={() => setSelectedUpi('upi')}
+                        className={`cursor-pointer border-2 rounded-2xl p-4 flex flex-col items-center justify-center gap-3 transition-all ${selectedUpi === 'upi' ? 'border-[#4F46E5] bg-[#4F46E5]/5' : 'border-gray-100 hover:border-gray-200 bg-gray-50'}`}
+                      >
+                        <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center p-2">
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" className="w-full h-full object-contain" />
+                        </div>
+                        <span className="font-bold text-gray-700 text-sm">Other UPI</span>
+                      </div>
+                    </div>
+
+                    {selectedUpi === 'upi' && (
+                      <div className="animate-[fade-in_0.3s_ease-out]">
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Enter UPI ID</label>
+                        <input type="text" placeholder="username@upi" className="w-full bg-white border-2 border-gray-100 rounded-xl p-4 focus:border-[#4F46E5] focus:ring-0 outline-none text-sm font-medium transition" />
+                      </div>
+                    )}
+                    
+                    {selectedUpi !== 'upi' && (
+                      <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-center animate-[fade-in_0.3s_ease-out]">
+                        <p className="text-sm text-blue-700 font-medium">You will be redirected to the <strong>{selectedUpi === 'gpay' ? 'Google Pay' : 'PhonePe'}</strong> app to complete your secure payment.</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* STEP 6: Success */}
+          {step === 6 && (
             <div className="py-12 animate-[fade-in_0.5s_ease-out] flex flex-col items-center justify-center max-w-lg mx-auto text-center h-full">
               <div className="w-24 h-24 bg-green-100 text-green-500 rounded-full flex items-center justify-center mb-6 shadow-sm">
                 <CheckCircle className="w-12 h-12" />
@@ -421,7 +494,7 @@ export default function BookingModal({ isOpen, onClose }) {
         </div>
 
         {/* Footer Actions */}
-        {step < 5 && (
+        {step < 6 && (
           <div className="px-6 py-5 border-t border-gray-100 bg-white flex items-center justify-between shrink-0">
             {step > 1 ? (
               <button 
@@ -467,7 +540,16 @@ export default function BookingModal({ isOpen, onClose }) {
                 onClick={handleNext}
                 className="px-8 py-3.5 rounded-xl font-bold text-white transition-all shadow-md bg-secondary hover:bg-secondary-hover"
               >
-                Confirm Appointment
+                Proceed to Payment
+              </button>
+            )}
+
+            {step === 5 && (
+              <button 
+                onClick={handleNext}
+                className="px-8 py-3.5 rounded-xl font-bold text-white transition-all shadow-md bg-[#4F46E5] hover:bg-[#4338CA]"
+              >
+                {consultationType === 'online' ? `Pay ₹${selectedDoctor?.fee || 500} & Book` : 'Complete Booking'}
               </button>
             )}
           </div>

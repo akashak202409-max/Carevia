@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import DoctorDashboard from './pages/DoctorDashboard.jsx';
+import PatientDashboard from './pages/PatientDashboard.jsx';
 import ProfessionalOnboarding from './pages/ProfessionalOnboarding.jsx';
 import Physiotherapy from './pages/Physiotherapy.jsx';
 
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/verification" element={<Verification />} />
         <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
         <Route path="/professional/onboarding" element={<ProfessionalOnboarding />} />
+        <Route path="/patient/dashboard" element={<PatientDashboard />} />
       </Routes>
     </Router>
   );

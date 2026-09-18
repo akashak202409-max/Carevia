@@ -168,9 +168,9 @@ export default function Login() {
                       Create Account
                     </Link>
                   ) : (
-                    <button className="w-full bg-primary hover:bg-primary-hover text-white font-bold text-lg py-4 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5">
+                    <Link to="/patient/dashboard" className="block text-center w-full bg-primary hover:bg-primary-hover text-white font-bold text-lg py-4 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5">
                       Create Account
-                    </button>
+                    </Link>
                   )}
                 </form>
 
