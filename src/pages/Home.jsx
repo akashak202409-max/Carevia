@@ -22,13 +22,13 @@ const services = [
     img: "/service-physio.png"
   },
   {
-    title: "Home Care",
+    title: "Baby Care",
     desc: "Full-time medical care and daily support for patients recovering at home",
     price: "Starts at ₹1,200/day",
     icon: <HomeIcon className="w-8 h-8 text-primary" />,
-    action: "Explore Home Care",
+    action: "Explore Baby Care",
     bgColor: "bg-blue-50",
-    link: "/home-care",
+    link: "/baby-care",
     img: "/service-homecare.png"
   },
   {
@@ -74,7 +74,7 @@ const services = [
 ];
 
 const steps = [
-  { title: "Choose Service", desc: "Select from Physio, Home Care, Care Taker or Doctor", num: 1 },
+  { title: "Choose Service", desc: "Select from Physio, Baby Care, Care Taker or Doctor", num: 1 },
   { title: "Book Appointment", desc: "Pick a time, share your location, and confirm", num: 2 },
   { title: "Get Care at Home", desc: "Verified professional arrives at your doorstep", num: 3 }
 ];
@@ -389,7 +389,7 @@ export default function Home() {
               <h4 className="text-white font-bold mb-6">Services</h4>
               <ul className="space-y-3">
                 <li><a href="#" className="hover:text-primary transition">Physiotherapy</a></li>
-                <li><a href="#" className="hover:text-primary transition">Home Care</a></li>
+                <li><a href="#" className="hover:text-primary transition">Baby Care</a></li>
                 <li><a href="#" className="hover:text-primary transition">Care Taker</a></li>
                 <li><a href="#" className="hover:text-primary transition">Doctor Visit</a></li>
                 <li><a href="#" className="hover:text-primary transition">Ayurveda</a></li>

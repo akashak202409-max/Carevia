@@ -9,7 +9,7 @@ export default function Blog() {
   const posts = [
     {
       date: "02-07-2024",
-      title: "Boost Immunity with Home Care",
+      title: "Boost Immunity with Baby Care",
       desc: "Discover how workflow automation and health routines can streamline recovery, reduce stress, and save your family valuable time.",
       img: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800&h=600&fit=crop"
     },

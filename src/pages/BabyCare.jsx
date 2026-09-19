@@ -6,9 +6,11 @@ import {
   ChevronDown as ChevronDownIcon
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import BookingModal from '../components/BookingModal';
 import AnimatedCTA from '../components/AnimatedCTA';
 
-export default function HomeCare() {
+export default function BabyCare() {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
 
   useEffect(() => {
@@ -52,10 +54,10 @@ export default function HomeCare() {
           <div className="text-sm text-gray-500 mb-4 font-medium flex items-center gap-2">
             <Link to="/" className="hover:text-primary">Home</Link> <ChevronRight className="w-3 h-3" /> 
             <span className="hover:text-primary cursor-pointer">Services</span> <ChevronRight className="w-3 h-3" />
-            <span className="text-primary">Home Care</span>
+            <span className="text-primary">Baby Care</span>
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold leading-[1.1] mb-6 font-poppins text-primary">
-            Compassionate Home Care,<br/>Right Where You Belong.
+            Compassionate Baby Care,<br/>Right Where You Belong.
           </h1>
           <p className="text-lg text-[#5A6478] mb-8 max-w-[500px] leading-relaxed">
             Get comprehensive medical and daily living support from certified home nurses and caregivers. Peace of mind for your loved ones.
@@ -68,9 +70,7 @@ export default function HomeCare() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full sm:w-auto">
-            <AnimatedCTA>
-              Book a Session
-            </AnimatedCTA>
+            <AnimatedCTA onClick={() => setIsBookingModalOpen(true)}>Book a Session</AnimatedCTA>
             <button className="bg-transparent border-2 border-primary text-primary hover:bg-[#F0F4FF] px-6 py-3 rounded-xl font-medium text-base transition flex items-center justify-center gap-2">
               <Phone className="w-5 h-5" /> Talk to a Nurse Now
             </button>
@@ -125,12 +125,12 @@ export default function HomeCare() {
         </div>
       </section>
 
-      {/* 4. About Home Care */}
+      {/* 4. About Baby Care */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white">
         <div className="flex flex-col md:flex-row items-center gap-16">
           <div className="md:w-[60%]">
             <h2 className="text-3xl md:text-[40px] font-semibold font-poppins text-primary mb-6 leading-tight">
-              Home Care That Comes to You
+              Baby Care That Comes to You
             </h2>
             <p className="text-lg text-[#5A6478] mb-6 leading-relaxed">
               We bring clinical excellence straight to your living room. Whether you're managing chronic pain, recovering from joint replacement surgery, or dealing with age-related mobility issues, our <span className="text-secondary font-medium">real recovery without leaving your home</span> approach ensures you heal faster and safer.
@@ -152,7 +152,7 @@ export default function HomeCare() {
             <div className="absolute inset-0 bg-[#F0F4FF] rounded-[40px] transform rotate-3 scale-105 -z-10"></div>
             <img 
               src="/homecare-section.jpg" 
-              alt="Home Care session" 
+              alt="Baby Care session" 
               className="rounded-[32px] shadow-2xl object-cover w-full h-[450px]"
             />
           </div>
@@ -307,6 +307,7 @@ export default function HomeCare() {
         <MessageCircle className="w-6 h-6 relative z-10" />
       </a>
       
+      <BookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
     </div>
   );
 }

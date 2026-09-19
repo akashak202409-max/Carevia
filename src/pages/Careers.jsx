@@ -400,7 +400,7 @@ export default function Careers() {
             <div className="text-2xl font-bold font-poppins mb-4 flex items-center gap-2 text-white"><Heart className="w-6 h-6 text-[#E87070]" /> carevia</div>
             <p className="text-gray-400 text-sm mb-6">Quality healthcare, delivered.</p>
           </div>
-          <div><h4 className="font-bold mb-4 text-white">For Patients</h4><ul className="space-y-3 text-sm text-gray-400"><li>Physiotherapy</li><li>Home Care</li><li>Care Taker</li><li>Doctor Visit</li></ul></div>
+          <div><h4 className="font-bold mb-4 text-white">For Patients</h4><ul className="space-y-3 text-sm text-gray-400"><li>Physiotherapy</li><li>Baby Care</li><li>Care Taker</li><li>Doctor Visit</li></ul></div>
           <div><h4 className="font-bold mb-4 text-white">For Professionals</h4><ul className="space-y-3 text-sm text-gray-400"><li>Apply Now</li><li>Browse Jobs</li><li>Carevia Academy</li><li>Login</li></ul></div>
           <div><h4 className="font-bold mb-4 text-white">Company</h4><ul className="space-y-3 text-sm text-gray-400"><li>About Us</li><li>Careers</li><li>Blog</li><li>Contact</li></ul></div>
         </div>

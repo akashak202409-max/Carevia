@@ -24,11 +24,8 @@ export default function PatientDashboard() {
       {/* Top Navbar */}
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-secondary to-orange-400 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md">
-              C
-            </div>
-            <span className="text-2xl font-bold text-primary tracking-tight font-poppins">carevia</span>
+          <Link to="/" className="flex items-center gap-2 cursor-pointer">
+            <img src="/logo.png" alt="Carevia Logo" className="h-10 sm:h-12 w-auto object-contain" />
           </Link>
           
           <div className="flex items-center gap-6">

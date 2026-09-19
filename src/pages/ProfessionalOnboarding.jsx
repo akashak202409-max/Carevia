@@ -21,11 +21,11 @@ const specializationOptions = {
   ],
   "Nurse": [
     "General Nursing", "Staff Nurse", "ICU Nurse", "Emergency Nurse", "Pediatric Nurse", 
-    "Maternity Nurse", "Geriatric Nurse", "Home Care Nurse", "Surgical Nurse", "Community Health Nurse"
+    "Maternity Nurse", "Geriatric Nurse", "Baby Care Nurse", "Surgical Nurse", "Community Health Nurse"
   ],
   "Caretaker": [
     "Elderly Care", "Patient Care", "Post-Surgery Care", "Bedridden Patient Care", "Disability Care", 
-    "Child Care", "Home Care", "Companion Care", "Dementia Care", "Palliative Care"
+    "Child Care", "Baby Care", "Companion Care", "Dementia Care", "Palliative Care"
   ],
   "Lab Centre": [
     "General Diagnostic Tests", "Blood Tests", "Urine Tests", "Diabetes Tests", "Thyroid Tests", 

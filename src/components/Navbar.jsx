@@ -40,7 +40,7 @@ export default function Navbar() {
               {servicesDropdownOpen && (
                 <div className="absolute top-full mt-4 w-56 bg-white rounded-xl shadow-lg py-2 border border-gray-100 flex flex-col z-50">
                   <Link to="/physiotherapy" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Physiotherapy</Link>
-                  <Link to="/home-care" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Home Care</Link>
+                  <Link to="/baby-care" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Baby Care</Link>
                   <Link to="/care-taker" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Care Taker</Link>
                   <Link to="/doctor-visit" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Doctor Visit</Link>
                   <Link to="/nurse-care" className="px-4 py-2 hover:bg-gray-50 text-primary font-medium transition">Nurse Care</Link>
@@ -86,7 +86,7 @@ export default function Navbar() {
                 {servicesDropdownOpen && (
                   <div className="flex flex-col space-y-2 pl-4 border-l-2 border-gray-100 ml-2">
                     <Link to="/physiotherapy" className="text-gray-600 text-sm font-medium">Physiotherapy</Link>
-                    <Link to="/home-care" className="text-gray-600 text-sm font-medium">Home Care</Link>
+                    <Link to="/baby-care" className="text-gray-600 text-sm font-medium">Baby Care</Link>
                     <Link to="/care-taker" className="text-gray-600 text-sm font-medium">Care Taker</Link>
                     <Link to="/doctor-visit" className="text-gray-600 text-sm font-medium">Doctor Visit</Link>
                     <Link to="/nurse-care" className="text-gray-600 text-sm font-medium">Nurse Care</Link>

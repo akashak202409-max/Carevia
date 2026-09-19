@@ -126,10 +126,7 @@ export default function DoctorDashboard() {
       <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-100 transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} flex flex-col`}>
         <div className="h-20 flex items-center px-6 border-b border-gray-100 justify-between lg:justify-center">
           <Link to="/" className="flex items-center gap-2 cursor-pointer">
-            <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center shadow-sm">
-              <div className="w-4 h-4 bg-white rounded-full" />
-            </div>
-            <span className="text-xl font-bold text-primary font-poppins tracking-tight">carevia</span>
+            <img src="/logo.png" alt="Carevia Logo" className="h-10 sm:h-12 w-auto object-contain" />
           </Link>
           <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden text-gray-400">
             <X className="w-6 h-6" />

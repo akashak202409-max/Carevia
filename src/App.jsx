@@ -6,7 +6,7 @@ import PatientDashboard from './pages/PatientDashboard.jsx';
 import ProfessionalOnboarding from './pages/ProfessionalOnboarding.jsx';
 import Physiotherapy from './pages/Physiotherapy.jsx';
 
-import HomeCare from './pages/HomeCare.jsx';
+import BabyCare from './pages/BabyCare.jsx';
 import CareTaker from './pages/CareTaker.jsx';
 import DoctorVisit from './pages/DoctorVisit.jsx';
 import About from './pages/About.jsx';
@@ -27,7 +27,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/physiotherapy" element={<Physiotherapy />} />
-        <Route path="/home-care" element={<HomeCare />} />
+        <Route path="/baby-care" element={<BabyCare />} />
         <Route path="/care-taker" element={<CareTaker />} />
         <Route path="/doctor-visit" element={<DoctorVisit />} />
         <Route path="/about" element={<About />} />

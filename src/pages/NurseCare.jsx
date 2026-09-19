@@ -6,9 +6,11 @@ import {
   ChevronDown as ChevronDownIcon
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import BookingModal from '../components/BookingModal';
 import AnimatedCTA from '../components/AnimatedCTA';
 
 export default function NurseCare() {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
 
   useEffect(() => {
@@ -66,9 +68,7 @@ export default function NurseCare() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full sm:w-auto">
-            <AnimatedCTA>
-              Book a Session
-            </AnimatedCTA>
+            <AnimatedCTA onClick={() => setIsBookingModalOpen(true)}>Book a Session</AnimatedCTA>
             <button className="bg-transparent border-2 border-primary text-primary hover:bg-[#F0F4FF] px-6 py-3 rounded-xl font-medium text-base transition flex items-center justify-center gap-2">
               <Phone className="w-5 h-5" /> Talk to a Nurse Now
             </button>
@@ -305,6 +305,7 @@ export default function NurseCare() {
         <MessageCircle className="w-6 h-6 relative z-10" />
       </a>
       
+      <BookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
     </div>
   );
 }
