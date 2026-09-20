@@ -9,11 +9,12 @@ const DOCTORS = [
 
 const TIME_SLOTS = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "04:00 PM", "05:00 PM"];
 
-export default function BookingModal({ isOpen, onClose }) {
+export default function BookingModal({ isOpen, onClose, serviceType }) {
   const [step, setStep] = useState(1);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
+  const [selectedDuration, setSelectedDuration] = useState("");
   const [patientInfo, setPatientInfo] = useState({ name: "", phone: "", email: "", reason: "" });
   const [consultationType, setConsultationType] = useState("online");
   const [selectedUpi, setSelectedUpi] = useState("gpay");
@@ -40,7 +41,7 @@ export default function BookingModal({ isOpen, onClose }) {
       const newAppt = {
         id: Date.now(),
         date: selectedDate ? selectedDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase().replace(/ /g, ' ') : 'UNKNOWN',
-        time: selectedTime,
+        time: selectedDuration ? `${selectedTime} (${selectedDuration})` : selectedTime,
         title: consultationType ? consultationType.charAt(0).toUpperCase() + consultationType.slice(1) + ' Consultation' : 'Consultation',
         status: 'Waiting',
         statusColor: 'yellow',
@@ -62,7 +63,7 @@ export default function BookingModal({ isOpen, onClose }) {
   const handleBack = () => setStep((s) => Math.max(s - 1, 1));
 
   const isStep1Valid = selectedDoctor !== null;
-  const isStep2Valid = selectedDate !== null && selectedTime !== "";
+  const isStep2Valid = selectedDate !== null && selectedTime !== "" && (!(serviceType === "baby-care" || serviceType === "care-taker") || selectedDuration !== "");
   const isStep3Valid = true; // Always valid since it's just an optional upload now
 
   // Calendar logic
@@ -280,6 +281,25 @@ export default function BookingModal({ isOpen, onClose }) {
                       ))}
                     </div>
                   )}
+
+                  {/* Shift Duration for Care services */}
+                  {(serviceType === 'baby-care' || serviceType === 'care-taker') && (
+                    <div className="mt-8 border-t border-gray-100 pt-6">
+                      <h4 className="font-bold text-gray-800 mb-4">Select Shift Duration</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        {["12 Hours", "24 Hours"].map(duration => (
+                          <button
+                            key={duration}
+                            onClick={() => setSelectedDuration(duration)}
+                            className={`py-4 rounded-xl border-2 font-bold text-sm transition-all ${selectedDuration === duration ? 'border-secondary bg-secondary/5 text-secondary shadow-sm' : 'border-gray-100 hover:border-gray-200 text-gray-600'}`}
+                          >
+                            {duration} Shift
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                 </div>
               </div>
             </div>
@@ -317,7 +337,7 @@ export default function BookingModal({ isOpen, onClose }) {
                       <Clock className="w-5 h-5 text-secondary shrink-0" />
                       <div>
                         <p className="text-xs opacity-70 mb-1">Time</p>
-                        <p className="font-medium text-sm">{selectedTime}</p>
+                        <p className="font-medium text-sm">{selectedTime} {selectedDuration && <span className="text-secondary ml-1 font-bold">({selectedDuration})</span>}</p>
                       </div>
                     </div>
                     <div className="flex gap-4 items-start">
