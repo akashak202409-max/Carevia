@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { X, Search, MapPin, Star, Calendar as CalendarIcon, Clock, User, Phone, Mail, FileText, CheckCircle, ChevronLeft, ChevronRight, Check, Briefcase } from 'lucide-react';
 
 const DOCTORS = [
-  { id: 1, name: "Dr. Priya Sharma", spec: "Homeopathy Doctor", rating: "4.9", exp: "8 Years", loc: "Chennai", fee: 600, img: "https://randomuser.me/api/portraits/women/44.jpg" },
-  { id: 2, name: "Dr. Ramesh Kumar", spec: "General Physician", rating: "4.8", exp: "12 Years", loc: "Chennai", fee: 500, img: "https://randomuser.me/api/portraits/men/32.jpg" },
-  { id: 3, name: "Dr. Ananya Iyer", spec: "Pediatrician", rating: "5.0", exp: "10 Years", loc: "Bangalore", fee: 800, img: "https://randomuser.me/api/portraits/women/68.jpg" },
+  { id: 1, name: "Dr. Priya Sharma", spec: "Homeopathy Doctor", rating: "4.9", exp: "8 Years", loc: "Chennai", clinicFee: 700, onlineFee: 500, img: "https://randomuser.me/api/portraits/women/44.jpg" },
+  { id: 2, name: "Dr. Ramesh Kumar", spec: "General Physician", rating: "4.8", exp: "12 Years", loc: "Chennai", clinicFee: 600, onlineFee: 400, img: "https://randomuser.me/api/portraits/men/32.jpg" },
+  { id: 3, name: "Dr. Ananya Iyer", spec: "Pediatrician", rating: "5.0", exp: "10 Years", loc: "Bangalore", clinicFee: 900, onlineFee: 700, img: "https://randomuser.me/api/portraits/women/68.jpg" },
 ];
 
 const TIME_SLOTS = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "04:00 PM", "05:00 PM"];
@@ -179,7 +179,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                 {DOCTORS.map(doc => (
                   <div 
                     key={doc.id} 
-                    onClick={() => setSelectedDoctor(doc)}
+                    
                     className={`bg-white p-5 rounded-[20px] border-2 cursor-pointer transition-all duration-200 flex flex-col ${selectedDoctor?.id === doc.id ? 'border-secondary shadow-lg scale-[1.02]' : 'border-gray-100 shadow-sm hover:border-secondary/30 hover:shadow-md'}`}
                   >
                     <div className="flex gap-4 items-start mb-4">
@@ -194,15 +194,26 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-xs font-medium text-gray-500 mb-6 bg-gray-50 p-3 rounded-xl flex-1">
+                    <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-xs font-medium text-gray-500 mb-4 bg-gray-50 p-3 rounded-xl">
                       <div className="flex items-center gap-1.5"><Briefcase className="w-3.5 h-3.5" /> {doc.exp}</div>
                       <div className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> {doc.loc}</div>
-                      <div className="flex items-center gap-1.5"><span className="font-bold text-gray-700">₹{doc.fee}</span> / session</div>
-                      <div className="flex items-center gap-1.5 text-green-600 font-bold"><CheckCircle className="w-3.5 h-3.5" /> Available</div>
                     </div>
                     
-                    <div className={`w-full py-2.5 rounded-xl text-center text-sm font-bold transition-colors ${selectedDoctor?.id === doc.id ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-500'}`}>
-                      {selectedDoctor?.id === doc.id ? 'Selected' : 'Select Doctor'}
+                    <div className="mt-auto space-y-2">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setSelectedDoctor(doc); setConsultationType('clinic'); }}
+                        className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all border-2 flex justify-between px-4 items-center ${selectedDoctor?.id === doc.id && consultationType === 'clinic' ? 'border-secondary bg-secondary text-white shadow-md scale-[1.02]' : 'border-gray-100 bg-white text-gray-600 hover:border-secondary/30'}`}
+                      >
+                        <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Hospital Visit</span>
+                        <span>₹{doc.clinicFee}</span>
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setSelectedDoctor(doc); setConsultationType('online'); }}
+                        className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all border-2 flex justify-between px-4 items-center ${selectedDoctor?.id === doc.id && consultationType === 'online' ? 'border-secondary bg-secondary text-white shadow-md scale-[1.02]' : 'border-gray-100 bg-white text-gray-600 hover:border-secondary/30'}`}
+                      >
+                        <span className="flex items-center gap-2"><FileText className="w-4 h-4" /> Online Consult</span>
+                        <span>₹{doc.onlineFee}</span>
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -344,14 +355,14 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                       <FileText className="w-5 h-5 text-secondary shrink-0" />
                       <div>
                         <p className="text-xs opacity-70 mb-1">Consultation Type</p>
-                        <p className="font-medium text-sm">Online Consultation</p>
+                        <p className="font-medium text-sm">{consultationType === "clinic" ? "Hospital Visit" : "Online Consultation"}</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
                     <span className="text-sm opacity-80">Total Fee</span>
-                    <span className="text-xl font-bold">₹{selectedDoctor?.fee}</span>
+                    <span className="text-xl font-bold">₹{consultationType === "clinic" ? selectedDoctor?.clinicFee : selectedDoctor?.onlineFee}</span>
                   </div>
                 </div>
 
@@ -410,7 +421,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
 
                 <div className="bg-[#F0F4FF] p-5 rounded-2xl flex justify-between items-center">
                   <span className="font-bold text-primary">Consultation Fee</span>
-                  <span className="text-2xl font-bold text-primary">₹{selectedDoctor?.fee}</span>
+                  <span className="text-2xl font-bold text-primary">₹{consultationType === "clinic" ? selectedDoctor?.clinicFee : selectedDoctor?.onlineFee}</span>
                 </div>
               </div>
             </div>
