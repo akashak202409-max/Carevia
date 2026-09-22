@@ -72,13 +72,13 @@ export default function Login() {
                 onClick={() => setRole('patient')}
                 className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${role === 'patient' ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-primary'}`}
               >
-                Patient
+                Patient Login
               </button>
               <button 
                 onClick={() => setRole('doctor')}
                 className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${role === 'doctor' ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-primary'}`}
               >
-                Professional
+                Doctor Login
               </button>
             </div>
             
