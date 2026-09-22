@@ -46,8 +46,23 @@ const specializationOptions = {
   ]
 };
 
+
+const INDIAN_STATES_CITIES = {
+  "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik"],
+  "Karnataka": ["Bangalore", "Mysore", "Hubli", "Mangalore"],
+  "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Salem", "Trichy"],
+  "Delhi": ["New Delhi"],
+  "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot"],
+  "Telangana": ["Hyderabad", "Warangal"],
+  "West Bengal": ["Kolkata", "Howrah", "Darjeeling"],
+  "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode"],
+  "Uttar Pradesh": ["Lucknow", "Kanpur", "Noida", "Agra"]
+};
+
 export default function ProfessionalOnboarding() {
   const [step, setStep] = useState(2);
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
   const [profession, setProfession] = useState("");
   const [selectedDay, setSelectedDay] = useState('Mon');
   const [schedule, setSchedule] = useState({
@@ -248,12 +263,31 @@ export default function ProfessionalOnboarding() {
                     <textarea rows="2" placeholder="123 Health Avenue, Block B..." className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition resize-none"></textarea>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">City *</label>
-                    <input type="text" placeholder="Chennai" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">State *</label>
+                    <select 
+                      value={selectedState} 
+                      onChange={(e) => { setSelectedState(e.target.value); setSelectedCity(''); }}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition appearance-none"
+                    >
+                      <option value="">Select State</option>
+                      {Object.keys(INDIAN_STATES_CITIES).map(state => (
+                        <option key={state} value={state}>{state}</option>
+                      ))}
+                    </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">State *</label>
-                    <input type="text" placeholder="Tamil Nadu" className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition" />
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">City *</label>
+                    <select 
+                      value={selectedCity} 
+                      onChange={(e) => setSelectedCity(e.target.value)}
+                      disabled={!selectedState}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3.5 focus:ring-2 focus:ring-secondary/50 outline-none text-sm font-medium transition appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="">Select City</option>
+                      {selectedState && INDIAN_STATES_CITIES[selectedState].map(city => (
+                        <option key={city} value={city}>{city}</option>
+                      ))}
+                    </select>
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Phone Number</label>
