@@ -305,7 +305,7 @@ export default function NurseCare() {
         <MessageCircle className="w-6 h-6 relative z-10" />
       </a>
       
-      <BookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
+      <BookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} serviceType="nurse-care" />
     </div>
   );
 }
