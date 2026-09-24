@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { X, Search, MapPin, Star, Calendar as CalendarIcon, Clock, User, Phone, Mail, FileText, CheckCircle, ChevronLeft, ChevronRight, Check, Briefcase } from 'lucide-react';
 
 const DOCTORS = [
-  { id: 1, name: "Dr. Priya Sharma", spec: "Homeopathy Doctor", rating: "4.9", exp: "8 Years", loc: "Chennai", clinicFee: 700, onlineFee: 500, img: "https://randomuser.me/api/portraits/women/44.jpg" },
-  { id: 2, name: "Dr. Ramesh Kumar", spec: "General Physician", rating: "4.8", exp: "12 Years", loc: "Chennai", clinicFee: 600, onlineFee: 400, img: "https://randomuser.me/api/portraits/men/32.jpg" },
-  { id: 3, name: "Dr. Ananya Iyer", spec: "Pediatrician", rating: "5.0", exp: "10 Years", loc: "Bangalore", clinicFee: 900, onlineFee: 700, img: "https://randomuser.me/api/portraits/women/68.jpg" },
-  { id: 4, name: "Dr. Sanjay Gupta", spec: "Physiotherapist", rating: "4.7", exp: "6 Years", loc: "Mumbai", clinicFee: 800, onlineFee: 500, img: "https://randomuser.me/api/portraits/men/45.jpg" },
-  { id: 5, name: "Dr. Neha Verma", spec: "Ayurveda Doctor", rating: "4.9", exp: "14 Years", loc: "Pune", clinicFee: 500, onlineFee: 300, img: "https://randomuser.me/api/portraits/women/22.jpg" },
-  { id: 6, name: "Nurse Anita", spec: "Nurse", rating: "4.8", exp: "5 Years", loc: "Delhi", clinicFee: 400, onlineFee: 300, img: "https://randomuser.me/api/portraits/women/12.jpg" },
-  { id: 7, name: "Rahul Singh", spec: "Care Taker", rating: "4.6", exp: "3 Years", loc: "Chennai", clinicFee: 300, onlineFee: 200, img: "https://randomuser.me/api/portraits/men/11.jpg" },
-  { id: 8, name: "Dr. Meena Iyer", spec: "BHS", rating: "4.9", exp: "9 Years", loc: "Bangalore", clinicFee: 700, onlineFee: 500, img: "https://randomuser.me/api/portraits/women/33.jpg" }
+  { id: 1, name: "Dr. Priya Sharma", spec: "Homeopathy Doctor", isDoctor: true, rating: "4.9", exp: "8 Years", loc: "Chennai", clinicFee: 700, onlineFee: 500, img: "https://randomuser.me/api/portraits/women/44.jpg" },
+  { id: 2, name: "Dr. Ramesh Kumar", spec: "General Physician", isDoctor: true, rating: "4.8", exp: "12 Years", loc: "Chennai", clinicFee: 600, onlineFee: 400, img: "https://randomuser.me/api/portraits/men/32.jpg" },
+  { id: 3, name: "Dr. Ananya Iyer", spec: "Pediatrician", isDoctor: true, rating: "5.0", exp: "10 Years", loc: "Bangalore", clinicFee: 900, onlineFee: 700, img: "https://randomuser.me/api/portraits/women/68.jpg" },
+  { id: 4, name: "Dr. Sanjay Gupta", spec: "Physiotherapist", isDoctor: false, rating: "4.7", exp: "6 Years", loc: "Mumbai", fee: 800, img: "https://randomuser.me/api/portraits/men/45.jpg" },
+  { id: 5, name: "Dr. Neha Verma", spec: "Ayurveda Doctor", isDoctor: true, rating: "4.9", exp: "14 Years", loc: "Pune", clinicFee: 500, onlineFee: 300, img: "https://randomuser.me/api/portraits/women/22.jpg" },
+  { id: 6, name: "Nurse Anita", spec: "Nurse", isDoctor: false, rating: "4.8", exp: "5 Years", loc: "Delhi", fee: 400, img: "https://randomuser.me/api/portraits/women/12.jpg" },
+  { id: 7, name: "Rahul Singh", spec: "Care Taker", isDoctor: false, rating: "4.6", exp: "3 Years", loc: "Chennai", fee: 300, img: "https://randomuser.me/api/portraits/men/11.jpg" },
+  { id: 8, name: "Dr. Meena Iyer", spec: "BHS", isDoctor: false, rating: "4.9", exp: "9 Years", loc: "Bangalore", fee: 500, img: "https://randomuser.me/api/portraits/women/33.jpg" }
 ];
+
+const getFee = (doc, type) => {
+  if (!doc) return 0;
+  return doc.isDoctor ? (type === 'clinic' ? doc.clinicFee : doc.onlineFee) : doc.fee;
+};
 
 const TIME_SLOTS = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "04:00 PM", "05:00 PM"];
 
@@ -244,20 +249,32 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                     </div>
                     
                     <div className="mt-auto space-y-2">
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); setSelectedDoctor(doc); setConsultationType('clinic'); }}
-                        className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all border-2 flex justify-between px-4 items-center ${selectedDoctor?.id === doc.id && consultationType === 'clinic' ? 'border-secondary bg-secondary text-white shadow-md scale-[1.02]' : 'border-gray-100 bg-white text-gray-600 hover:border-secondary/30'}`}
-                      >
-                        <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Hospital Visit</span>
-                        <span>₹{doc.clinicFee}</span>
-                      </button>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); setSelectedDoctor(doc); setConsultationType('online'); }}
-                        className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all border-2 flex justify-between px-4 items-center ${selectedDoctor?.id === doc.id && consultationType === 'online' ? 'border-secondary bg-secondary text-white shadow-md scale-[1.02]' : 'border-gray-100 bg-white text-gray-600 hover:border-secondary/30'}`}
-                      >
-                        <span className="flex items-center gap-2"><FileText className="w-4 h-4" /> Online Consult</span>
-                        <span>₹{doc.onlineFee}</span>
-                      </button>
+                      {doc.isDoctor ? (
+                        <>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setSelectedDoctor(doc); setConsultationType('clinic'); }}
+                            className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all border-2 flex justify-between px-4 items-center ${selectedDoctor?.id === doc.id && consultationType === 'clinic' ? 'border-secondary bg-secondary text-white shadow-md scale-[1.02]' : 'border-gray-100 bg-white text-gray-600 hover:border-secondary/30'}`}
+                          >
+                            <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Hospital Visit</span>
+                            <span>₹{doc.clinicFee}</span>
+                          </button>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setSelectedDoctor(doc); setConsultationType('online'); }}
+                            className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all border-2 flex justify-between px-4 items-center ${selectedDoctor?.id === doc.id && consultationType === 'online' ? 'border-secondary bg-secondary text-white shadow-md scale-[1.02]' : 'border-gray-100 bg-white text-gray-600 hover:border-secondary/30'}`}
+                          >
+                            <span className="flex items-center gap-2"><FileText className="w-4 h-4" /> Online Consult</span>
+                            <span>₹{doc.onlineFee}</span>
+                          </button>
+                        </>
+                      ) : (
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setSelectedDoctor(doc); setConsultationType('home'); }}
+                          className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all border-2 flex justify-between px-4 items-center ${selectedDoctor?.id === doc.id ? 'border-secondary bg-secondary text-white shadow-md scale-[1.02]' : 'border-gray-100 bg-white text-gray-600 hover:border-secondary/30'}`}
+                        >
+                          <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Book Session</span>
+                          <span>₹{doc.fee}</span>
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -399,14 +416,14 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                       <FileText className="w-5 h-5 text-secondary shrink-0" />
                       <div>
                         <p className="text-xs opacity-70 mb-1">Consultation Type</p>
-                        <p className="font-medium text-sm">{consultationType === "clinic" ? "Hospital Visit" : "Online Consultation"}</p>
+                        <p className="font-medium text-sm">{consultationType === "clinic" ? "Hospital Visit" : (consultationType === "online" ? "Online Consultation" : "Home Service")}</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
                     <span className="text-sm opacity-80">Total Fee</span>
-                    <span className="text-xl font-bold">₹{consultationType === "clinic" ? selectedDoctor?.clinicFee : selectedDoctor?.onlineFee}</span>
+                    <span className="text-xl font-bold">₹{getFee(selectedDoctor, consultationType)}</span>
                   </div>
                 </div>
 
@@ -465,7 +482,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
 
                 <div className="bg-[#F0F4FF] p-5 rounded-2xl flex justify-between items-center">
                   <span className="font-bold text-primary">Consultation Fee</span>
-                  <span className="text-2xl font-bold text-primary">₹{consultationType === "clinic" ? selectedDoctor?.clinicFee : selectedDoctor?.onlineFee}</span>
+                  <span className="text-2xl font-bold text-primary">₹{getFee(selectedDoctor, consultationType)}</span>
                 </div>
               </div>
             </div>
@@ -484,9 +501,9 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                 <div className="flex justify-between items-center mb-8 pb-6 border-b border-gray-100">
                   <div>
                     <h4 className="font-bold text-gray-800 text-lg">Total Amount</h4>
-                    <p className="text-sm text-gray-500">{consultationType === 'online' ? 'Online Consultation' : 'Direct Visit'}</p>
+                    <p className="text-sm text-gray-500">{consultationType === 'online' ? 'Online Consultation' : (consultationType === 'clinic' ? 'Hospital Visit' : 'Home Visit')}</p>
                   </div>
-                  <div className="text-3xl font-bold text-primary">₹{selectedDoctor?.fee || 500}</div>
+                  <div className="text-3xl font-bold text-primary">₹{getFee(selectedDoctor, consultationType)}</div>
                 </div>
 
                 {consultationType !== 'online' ? (
