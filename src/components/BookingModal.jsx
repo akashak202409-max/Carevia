@@ -147,7 +147,8 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                 <p className="text-gray-500">Select a specialist and a convenient time for your consultation.</p>
               </div>
 
-              <div className="bg-white p-4 rounded-[16px] shadow-sm border border-gray-100 grid grid-cols-1 md:grid-cols-4 gap-4">
+              {!serviceType && (
+<div className="bg-white p-4 rounded-[16px] shadow-sm border border-gray-100 grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="relative md:col-span-2">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search doctor or specialist" className="w-full pl-11 pr-4 py-3 bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-secondary/50 text-sm font-medium" />
@@ -187,6 +188,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                   <option>Diagnostic Scan Booking</option>
                 </select>
               </div>
+)}
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {DOCTORS.filter(doc => {
