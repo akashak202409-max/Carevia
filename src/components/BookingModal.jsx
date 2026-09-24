@@ -24,6 +24,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSpec, setFilterSpec] = useState("");
+  const isDoctorCategory = !serviceType || serviceType === "home-doctor";
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedDuration, setSelectedDuration] = useState("");
