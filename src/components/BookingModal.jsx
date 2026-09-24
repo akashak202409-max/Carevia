@@ -12,9 +12,9 @@ const DOCTORS = [
   { id: 8, name: "Dr. Meena Iyer", spec: "BHS", isDoctor: false, rating: "4.9", exp: "9 Years", loc: "Bangalore", fee: 500, img: "https://randomuser.me/api/portraits/women/33.jpg" }
 ];
 
-const getFee = (doc, type) => {
+const getFee = (doc, type, isDoctorCategory) => {
   if (!doc) return 0;
-  return doc.isDoctor ? (type === 'clinic' ? doc.clinicFee : doc.onlineFee) : doc.fee;
+  return isDoctorCategory ? (type === 'clinic' ? (doc.clinicFee || doc.fee) : (doc.onlineFee || doc.fee)) : (doc.fee || doc.clinicFee);
 };
 
 const TIME_SLOTS = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "04:00 PM", "05:00 PM"];
@@ -250,7 +250,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                     </div>
                     
                     <div className="mt-auto space-y-2">
-                      {doc.isDoctor ? (
+                      {isDoctorCategory ? (
                         <>
                           <button 
                             onClick={(e) => { e.stopPropagation(); setSelectedDoctor(doc); setConsultationType('clinic'); }}
@@ -273,7 +273,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                           className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all border-2 flex justify-between px-4 items-center ${selectedDoctor?.id === doc.id ? 'border-secondary bg-secondary text-white shadow-md scale-[1.02]' : 'border-gray-100 bg-white text-gray-600 hover:border-secondary/30'}`}
                         >
                           <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Book Session</span>
-                          <span>₹{doc.fee}</span>
+                          <span>₹{doc.fee || doc.clinicFee}</span>
                         </button>
                       )}
                     </div>
@@ -424,7 +424,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
 
                   <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
                     <span className="text-sm opacity-80">Total Fee</span>
-                    <span className="text-xl font-bold">₹{getFee(selectedDoctor, consultationType)}</span>
+                    <span className="text-xl font-bold">₹{getFee(selectedDoctor, consultationType, isDoctorCategory)}</span>
                   </div>
                 </div>
 
@@ -483,7 +483,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
 
                 <div className="bg-[#F0F4FF] p-5 rounded-2xl flex justify-between items-center">
                   <span className="font-bold text-primary">Consultation Fee</span>
-                  <span className="text-2xl font-bold text-primary">₹{getFee(selectedDoctor, consultationType)}</span>
+                  <span className="text-2xl font-bold text-primary">₹{getFee(selectedDoctor, consultationType, isDoctorCategory)}</span>
                 </div>
               </div>
             </div>
@@ -504,7 +504,7 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
                     <h4 className="font-bold text-gray-800 text-lg">Total Amount</h4>
                     <p className="text-sm text-gray-500">{consultationType === 'online' ? 'Online Consultation' : (consultationType === 'clinic' ? 'Hospital Visit' : 'Home Visit')}</p>
                   </div>
-                  <div className="text-3xl font-bold text-primary">₹{getFee(selectedDoctor, consultationType)}</div>
+                  <div className="text-3xl font-bold text-primary">₹{getFee(selectedDoctor, consultationType, isDoctorCategory)}</div>
                 </div>
 
                 {consultationType !== 'online' ? (
