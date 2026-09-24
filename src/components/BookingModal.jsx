@@ -17,6 +17,8 @@ const TIME_SLOTS = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "04:00 PM", 
 export default function BookingModal({ isOpen, onClose, serviceType }) {
   const [step, setStep] = useState(1);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterSpec, setFilterSpec] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedDuration, setSelectedDuration] = useState("");
@@ -28,6 +30,12 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      // Auto-set filter based on service page
+      if (serviceType === 'physiotherapy') setFilterSpec('Physiotherapist Home Visit');
+      else if (serviceType === 'home-doctor') setFilterSpec('Home Doctor Visit');
+      else if (serviceType === 'nurse-care') setFilterSpec('Nursing Home Care');
+      else if (serviceType === 'care-taker') setFilterSpec('Elderly / Geriatric Care');
+      else setFilterSpec('');
       setStep(1);
       setSelectedDoctor(null);
       setSelectedDate(null);
@@ -142,9 +150,9 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
               <div className="bg-white p-4 rounded-[16px] shadow-sm border border-gray-100 grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="relative md:col-span-2">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input type="text" placeholder="Search doctor or specialist" className="w-full pl-11 pr-4 py-3 bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-secondary/50 text-sm font-medium" />
+                  <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search doctor or specialist" className="w-full pl-11 pr-4 py-3 bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-secondary/50 text-sm font-medium" />
                 </div>
-                <select className="w-full px-4 py-3 bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-secondary/50 text-sm font-medium text-gray-600 appearance-none">
+                <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)} className="w-full px-4 py-3 bg-gray-50 rounded-xl outline-none focus:ring-2 focus:ring-secondary/50 text-sm font-medium text-gray-600 appearance-none">
                   <option value="">Select Specialization</option>
                   <option>Doctor Appointment – General Physician</option>
                   <optgroup label="Specialist Doctor Appointment">
@@ -182,14 +190,33 @@ export default function BookingModal({ isOpen, onClose, serviceType }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {DOCTORS.filter(doc => {
-                  if (!serviceType) return true;
-                  if (serviceType === 'physiotherapy' && doc.spec !== 'Physiotherapist') return false;
-                  if (serviceType === 'ayurveda' && doc.spec !== 'Ayurveda Doctor') return false;
-                  if (serviceType === 'nurse-care' && doc.spec !== 'Nurse') return false;
-                  if (serviceType === 'bhs' && doc.spec !== 'BHS') return false;
-                  if (serviceType === 'baby-care' && doc.spec !== 'Pediatrician') return false;
-                  if (serviceType === 'care-taker' && doc.spec !== 'Care Taker') return false;
-                  if (serviceType === 'home-doctor' && doc.spec !== 'General Physician') return false;
+                  // 1. Search Query
+                  if (searchQuery && !doc.name.toLowerCase().includes(searchQuery.toLowerCase()) && !doc.spec.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+                  
+                  // 2. Dropdown Filter
+                  if (filterSpec) {
+                    if (filterSpec === 'Physiotherapist Home Visit' && doc.spec !== 'Physiotherapist') return false;
+                    if (filterSpec === 'Home Doctor Visit' && doc.spec !== 'General Physician') return false;
+                    if (filterSpec === 'Nursing Home Care' && doc.spec !== 'Nurse') return false;
+                    if (filterSpec === 'Elderly / Geriatric Care' && doc.spec !== 'Care Taker') return false;
+                    if (filterSpec === 'Doctor Appointment – General Physician' && doc.spec !== 'General Physician') return false;
+                    if (filterSpec === 'Cardiologist' && doc.spec !== 'Cardiologist') return false;
+                    if (filterSpec === 'Pediatrician' && doc.spec !== 'Pediatrician') return false;
+                    // For anything else, loosely match if spec is in the filter string
+                    if (!['Physiotherapist Home Visit', 'Home Doctor Visit', 'Nursing Home Care', 'Elderly / Geriatric Care', 'Doctor Appointment – General Physician', 'Cardiologist', 'Pediatrician'].includes(filterSpec)) {
+                       if (!filterSpec.toLowerCase().includes(doc.spec.toLowerCase()) && !doc.spec.toLowerCase().includes(filterSpec.toLowerCase())) return false;
+                    }
+                  } else {
+                    // 3. Fallback to serviceType if no dropdown filter is selected
+                    if (serviceType === 'physiotherapy' && doc.spec !== 'Physiotherapist') return false;
+                    if (serviceType === 'ayurveda' && doc.spec !== 'Ayurveda Doctor') return false;
+                    if (serviceType === 'nurse-care' && doc.spec !== 'Nurse') return false;
+                    if (serviceType === 'bhs' && doc.spec !== 'BHS') return false;
+                    if (serviceType === 'baby-care' && doc.spec !== 'Pediatrician') return false;
+                    if (serviceType === 'care-taker' && doc.spec !== 'Care Taker') return false;
+                    if (serviceType === 'home-doctor' && doc.spec !== 'General Physician') return false;
+                  }
+                  
                   return true;
                 }).map(doc => (
                   <div 
