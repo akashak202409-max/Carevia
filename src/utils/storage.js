@@ -5,7 +5,7 @@ const getStorage = (key, defaultValue = []) => {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : defaultValue;
   } catch (error) {
-    console.error(\`Error reading \${key} from localStorage\`, error);
+    console.error(`Error reading ${key} from localStorage`, error);
     return defaultValue;
   }
 };
@@ -14,7 +14,7 @@ const setStorage = (key, data) => {
   try {
     localStorage.setItem(key, JSON.stringify(data));
   } catch (error) {
-    console.error(\`Error writing \${key} to localStorage\`, error);
+    console.error(`Error writing ${key} to localStorage`, error);
   }
 };
 
