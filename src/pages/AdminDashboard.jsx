@@ -53,7 +53,7 @@ export default function AdminDashboard() {
               <li key={tab}>
                 <button
                   onClick={() => setActiveTab(tab)}
-                  className={\`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all \${activeTab === tab ? 'bg-primary text-white shadow-md' : 'text-gray-500 hover:bg-gray-50 hover:text-primary'}\`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'text-gray-500 hover:bg-gray-50 hover:text-primary'}`}
                 >
                   {tab === 'Dashboard' && <Activity className="w-5 h-5" />}
                   {tab === 'Doctors' && <Briefcase className="w-5 h-5" />}
