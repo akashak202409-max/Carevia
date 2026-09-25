@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getDoctors, saveDoctors, saveCurrentUser } from '../utils/storage';
 import { CheckCircle, Upload, Camera, Building, FileText, Calendar, Clock, ArrowRight, ShieldCheck, Check } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
@@ -502,9 +503,9 @@ export default function ProfessionalOnboarding() {
                   </div>
 
                   <div className="flex gap-4 border-t border-gray-100 pt-6">
-                    <Link to="/doctor/dashboard" className="bg-secondary hover:bg-secondary-hover text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-md text-center inline-block">
+                    <button onClick={handleComplete} className="bg-secondary hover:bg-secondary-hover text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-md text-center inline-block">
                       Save Availability & Go to Dashboard
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
